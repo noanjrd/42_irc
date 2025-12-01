@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Chanel.hpp                                         :+:      :+:    :+:   */
+/*   processmessages.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 15:29:30 by njard             #+#    #+#             */
-/*   Updated: 2025/12/01 15:44:22 by njard            ###   ########.fr       */
+/*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
+/*   Updated: 2025/12/01 15:45:10 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "../../includes/IRC.h"
+// #include "../../includes/Client.hpp"
 
-#include <iostream>
-
-class Chanel
+int process_mess(std::string message, Client &client)
 {
-private:
-	std::string name;
-	// int user_limit;
-	std::string password;
-	// int id;
-	// Client tabclient[];
-
-public:
-	Chanel();
-	~Chanel();
-};
+	if (client.getConfigured() == 0)
+	{
+		client.configure(message);
+		return 0;
+	}
+	return 0;
+}

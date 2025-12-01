@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Chanel.hpp                                         :+:      :+:    :+:   */
+/*   IRC.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 15:29:30 by njard             #+#    #+#             */
-/*   Updated: 2025/12/01 15:44:22 by njard            ###   ########.fr       */
+/*   Created: 2025/12/01 13:27:22 by njard             #+#    #+#             */
+/*   Updated: 2025/12/01 16:17:16 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iostream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <cstring>
+#include <stdlib.h>
+#include <vector>
+#include <poll.h>
+#include <algorithm>
 
-class Chanel
-{
-private:
-	std::string name;
-	// int user_limit;
-	std::string password;
-	// int id;
-	// Client tabclient[];
+#include "Client.hpp"
+#include "Server.hpp"
+#include "Chanel.hpp"
 
-public:
-	Chanel();
-	~Chanel();
-};
+// SERVER
+
+int process_mess(std::string message, Client &client);
+void initpoll(Server &server);

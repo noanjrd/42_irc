@@ -1,13 +1,20 @@
+# enlever le relink
+
 NAME = ircserv
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 RM = rm -rf
 
-SRCS = srcs/main.cpp
+SRCS = srcs/main.cpp\
+	srcs/Client.cpp\
+	srcs/Chanel.cpp\
+	srcs/server/Server.cpp\
+	srcs/server/poll.cpp\
+	srcs/server/processmessages.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-all: $(NAME)
+all: $(NAME) clean
 
 $(NAME): $(OBJS)
 	@$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
