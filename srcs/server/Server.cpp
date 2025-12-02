@@ -6,21 +6,15 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2025/12/01 16:39:14 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/02 16:21:30 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/Server.hpp"
 
-Server::Server()
-{
+Server::Server() {}
 
-}
-
-Server::Server(int fd, int port, std::string pswd) : sevrer_fd(fd), port(port), password(pswd)
-{
-
-}
+Server::Server(int fd, int port, std::string pswd) : sevrer_fd(fd), port(port), password(pswd) {}
 
 Server::~Server() {}
 
@@ -38,7 +32,12 @@ std::string& Server::getPassword()
 	return this->password;
 }
 
-std::vector<std::string> Server::getUsernames() const
+std::vector<std::string>& Server::getUsernames()
 {
 	return this->usernames;
+}
+
+std::vector<Chanel>& Server::getChanels()
+{
+	return this->chanels;
 }

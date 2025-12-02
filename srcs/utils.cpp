@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processmessages.cpp                                :+:      :+:    :+:   */
+/*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/02 17:07:15 by njard            ###   ########.fr       */
+/*   Created: 2025/12/02 16:46:49 by njard             #+#    #+#             */
+/*   Updated: 2025/12/02 16:54:41 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/IRC.h"
+#include "../includes/IRC.h"
 
-int process_mess(std::string commands, Client &client)
+int count_words(std::string s)
 {
-	if (client.getAuthenticated() == false)
+    int words = 0;
+    int i  = 0;
+	bool letter = 0;
+    while(s[i])
+    {
+		if (!std::isspace(s[i]) && letter == 0)
+		{
+			words++;
+			letter = 1;
+		}
+		if (std::isspace(s[i]))
+		{
+			letter = 0;
+		}
+        i++;
+    }
+	if (i >= 1 && !std::isspace(s[i-1]))
 	{
-		client.authentication(commands);
-		return 0;
+		words++;
 	}
-	
-	return 0;
+	return words;
 }
