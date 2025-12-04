@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:27:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/03 11:39:44 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/04 10:47:21 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include "Client.hpp"
 #include "Server.hpp"
 #include "Chanel.hpp"
+#include "ClientConnexion.hpp"
 
 // SERVER
 

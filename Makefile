@@ -1,13 +1,14 @@
 # enlever le relink
 
 NAME = ircserv
-CC = g++
+CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 RM = rm -rf
 
 SRCS = srcs/main.cpp\
 	srcs/utils.cpp\
-	srcs/Client.cpp\
+	srcs/client/Client.cpp\
+	srcs/client/ClientConnexion.cpp\
 	srcs/chanel/Chanel.cpp\
 	srcs/server/Server.cpp\
 	srcs/server/poll.cpp\

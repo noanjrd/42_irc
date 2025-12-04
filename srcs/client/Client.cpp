@@ -6,11 +6,11 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2025/12/03 12:42:33 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/04 10:50:48 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/IRC.h"
+#include "../../includes/IRC.h"
 
 Client::Client(int fdclient, Server &server) : chanel(NULL), server(server),fd(fdclient), configured(0), authenticated(0) {}
 

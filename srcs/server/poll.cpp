@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:55:08 by njard             #+#    #+#             */
-/*   Updated: 2025/12/01 16:04:18 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/04 11:29:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void initpoll(Server &server)
 {
-	std::vector<pollfd> watched_socket;
 	pollfd server_poll;
 	server_poll.fd = server.getFd();
 	server_poll.events = POLLIN; // on dit au poll quelle evenement ecouter, ici POLLIN
-	watched_socket.push_back(server_poll);
-	std::vector<Client> clients;
 
 	while(true)
 	{
+		std::vector<pollfd> watched_socket;
+		watched_socket.push_back(server_poll);
+		for (size_t i = 0; i < server.getClient_connexions().size(); i++)
+		{
+			watched_socket.push_back(server.getClient_connexions()[i].getPollfd());
+		}
 		int waiting_socket = poll(watched_socket.data(), watched_socket.size(), -1);
 		if (waiting_socket < 0)
 		{
@@ -38,11 +41,11 @@ void initpoll(Server &server)
 				continue;
 			}
 			Client new_client(client_fd, server);
-			clients.push_back(new_client);
-			pollfd  clienttemp;
-			clienttemp.fd = client_fd;
-			clienttemp.events = POLLIN;
-			watched_socket.push_back(clienttemp);
+			pollfd  pollclient;
+			pollclient.fd = client_fd;
+			pollclient.events = POLLIN;
+			server.getClient_connexions().push_back(ClientConnexion(new_client, pollclient));
+			// watched_socket.push_back(pollclienttemp);
 		}
 		for (long unsigned int i = 1; i < watched_socket.size(); i++)
 		{
@@ -59,7 +62,7 @@ void initpoll(Server &server)
 			buff[bytes] = 0;
 			entiremessage += buff;
 			std::cout << entiremessage;
-			process_mess(entiremessage, clients[i-1]);
+			process_mess(entiremessage, server.getClient_connexions()[i-1].getClient());
 		}
 		
 	}

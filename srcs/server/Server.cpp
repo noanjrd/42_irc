@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2025/12/02 16:21:30 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/04 11:26:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,9 @@ std::vector<std::string>& Server::getUsernames()
 std::vector<Chanel>& Server::getChanels()
 {
 	return this->chanels;
+}
+
+std::vector<ClientConnexion>& Server::getClient_connexions()
+{
+	return this->client_connexions;
 }
