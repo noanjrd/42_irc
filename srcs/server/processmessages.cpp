@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/17 16:02:09 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/18 12:38:24 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int process_mess(std::string commands, Client &client)
 	}
 	if (command == "JOIN")
 	{
-		
+		JOIN(client, commands);
 		return 0;	
 	}
 	if (command == "PRIVMSG")

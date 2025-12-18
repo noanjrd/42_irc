@@ -12,7 +12,8 @@ SRCS = srcs/main.cpp\
 	srcs/chanel/Chanel.cpp\
 	srcs/server/Server.cpp\
 	srcs/server/poll.cpp\
-	srcs/server/processmessages.cpp
+	srcs/server/processmessages.cpp\
+	srcs/commands/JOIN.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

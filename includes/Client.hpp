@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2025/12/17 16:15:15 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/18 16:18:20 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ public:
 	bool getConfigured() const;
 	bool getAuthenticated() const;
 	Server& getServer() const;
+	std::string& getUsername();
+	std::string& getNickname();
+	int getFd();
 
 	void authentication(std::string& command);
-	std::string& getUsername();
 	void configure(std::string& commands);
 	void JoinChanel(std::string& chaneltemp);
 	void sendconnexionconfimation() const;

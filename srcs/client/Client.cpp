@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2025/12/17 16:15:38 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/18 16:25:39 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void Client::authentication(std::string& commands)
 		{
 			char buf[] = "ERROR :Password incorrect\n";
 			send(this->fd, buf, strlen(buf),0);
-			// on doit deconnecter l utlisateur ici
 		}
 	}
 	return ;
@@ -155,3 +154,13 @@ bool usernameExist(Server& server, std::string& username)
 	return true;
 }
 
+
+int Client::getFd()
+{
+	return  this->fd;
+}
+
+std::string& Client::getNickname()
+{
+	return this->nickname;
+}
