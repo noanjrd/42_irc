@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2025/12/19 16:37:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:09:22 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void Client::configure(std::string& commands)
 		}
 		realnametemp.erase(0, 1); 
 		
-		if (usernameExist(this->server, usernametemp) == false)
+		if (isUserInServer(this->server, usernametemp) == false)
 		{
 			this->username = usernametemp;
 			this->realname = realnametemp;
@@ -159,17 +159,6 @@ void Client::sendconnexionconfimation() const
 	send(this->fd, buf5, strlen(buf5),0);
 }
 
-
-bool usernameExist(Server& server, std::string& username)
-{
-	std::vector<std::string> usernames = server.getUsernames();
-	std::vector<std::string>::iterator it = std::find(usernames.begin(),usernames.end(), username);
-	if (it == usernames.end())
-		return false;
-	return true;
-}
-
-
 int Client::getFd()
 {
 	return  this->fd;
@@ -178,4 +167,36 @@ int Client::getFd()
 std::string& Client::getNickname()
 {
 	return this->nickname;
+}
+
+bool Client::operator==(Client& cl)
+{
+	if (cl.getUsername() == this->username)
+	{
+		return true;
+	}
+	return false;
+}
+
+void Client::autoconfigure()
+{
+	this->username = "Noan";
+	this->nickname = "nono";
+	this->realname = "Noan Jard";
+	this->configured = 1;
+	this->authenticated = 1;
+	
+	this->sendconnexionconfimation();
+}
+
+
+void Client::autoconfigure2()
+{
+	this->username = "Naziha";
+	this->nickname = "nana";
+	this->realname = "Naziha Aankour";
+	this->configured = 1;
+	this->authenticated = 1;
+	
+	this->sendconnexionconfimation();
 }

@@ -14,7 +14,8 @@ SRCS = srcs/main.cpp\
 	srcs/server/poll.cpp\
 	srcs/server/processmessages.cpp\
 	srcs/commands/JOIN.cpp\
-	srcs/commands/NAMES.cpp
+	srcs/commands/NAMES.cpp\
+	srcs/commands/KICK.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

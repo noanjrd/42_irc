@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:55:08 by njard             #+#    #+#             */
-/*   Updated: 2025/12/19 16:20:10 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:36:43 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void initpoll(Server &server)
 		watched_socket.push_back(server_poll);
 		for (size_t i = 0; i < server.getClient_connexions().size(); i++)
 		{
-			watched_socket.push_back(server.getClient_connexions()[i].getPollfd());
+			watched_socket.push_back(server.getClient_connexions()[i]->getPollfd());
 		}
 		int waiting_socket = poll(watched_socket.data(), watched_socket.size(), -1);
 		if (waiting_socket < 0)
@@ -44,7 +44,8 @@ void initpoll(Server &server)
 			pollfd  pollclient;
 			pollclient.fd = client_fd;
 			pollclient.events = POLLIN;
-			server.getClient_connexions().push_back(ClientConnexion(new_client, pollclient));
+			ClientConnexion* temp = new ClientConnexion(new_client, pollclient);
+			server.getClient_connexions().push_back(temp);
 			// watched_socket.push_back(pollclienttemp);
 		}
 		for (long unsigned int i = 1; i < watched_socket.size(); i++)
@@ -61,9 +62,15 @@ void initpoll(Server &server)
 			}
 			buff[bytes] = 0;
 			entiremessage += buff;
-			entiremessage += "|";
-			std::cout << entiremessage ;
-			split_message(entiremessage, server.getClient_connexions()[i-1].getClient());
+			// entiremessage += "|";
+			// std::cout << entiremessage ;
+			// try{
+			split_message(entiremessage, server.getClient_connexions()[i-1]->getClient());
+			// }
+			// catch (std::exception& e)
+			// {
+			// 	std::cerr << "Error : " << e.what() << std::endl;
+			// }
 		}
 		
 	}

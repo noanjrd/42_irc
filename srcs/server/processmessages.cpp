@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/19 17:01:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:16:46 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void split_message(std::string commands, Client &client)
 {
+	std::cout << "Entire command " << commands << std::endl;
 	int i = 0;
 	std::string line;
 	if (commands.length() == 0)
@@ -39,10 +40,18 @@ void split_message(std::string commands, Client &client)
 	}
 }
 
-int process_mess(std::string commands, Client &client)
+int process_mess(std::string commands, Client &client) // ici on pourra faire des pointeurs sur fonctions
 {
-	std::cout << "entire command : " << commands << std::endl;
+	std::cout << "splited command : " << commands << std::endl;
 	std::string command = get_word(commands, 1);
+	if (command == "auto") // tu peux utiliser la commande auto ou auto2 pour pas avoir a faire la configuration du client
+	{
+		client.autoconfigure();
+	}
+	if (command == "auto2")
+	{
+		client.autoconfigure2();
+	}
 	if (client.getAuthenticated() == false)
 	{
 		client.authentication(commands);
@@ -61,18 +70,18 @@ int process_mess(std::string commands, Client &client)
 	if (command == "JOIN")
 	{
 		JOIN(client, commands);
-		return 0;
 	}
 	if (command == "NAMES")
 	{
 		NAMES(client, commands);
 		return 0;	
 	}
-	if (command == "PRIVMSG")
+	if (command == "KICK")
 	{
-		
+		KICK(client, commands);
+		return 0;
 	}
-	std::cout << "Configured" << std::endl;
+	// std::cout << "Configured" << std::endl;
 	
 	return 0;
 }

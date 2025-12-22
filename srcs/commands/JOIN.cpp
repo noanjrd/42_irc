@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2025/12/19 16:18:47 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/22 15:57:46 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ void JOIN(Client &client, std::string &commands)
 			return ;
 		}
 		chanelname = chanelname.substr(1);
-		std::vector<std::string> chanels_list_name = client.getServer().getUChanelsName();
-		std::vector<std::string>::iterator it = find(chanels_list_name.begin(), chanels_list_name.end(), chanelname);
-		if (it == chanels_list_name.end())
+		Chanel * chaneltemp = strChaneltoChanelType(client.getServer() ,chanelname);
+		if (chaneltemp == NULL)
 		{
 			Chanel* newchannel = new Chanel(chanelname, client);
 			client.getServer().getChanels().push_back(newchannel);
@@ -38,10 +37,9 @@ void JOIN(Client &client, std::string &commands)
 		}
 		else
 		{
-			int index = it - chanels_list_name.begin();
 			try
 			{
-				client.getServer().getChanels()[index]->JoinChanel(client);
+				chaneltemp->JoinChanel(client);
 			}
 			catch (std::exception &e)
 			{

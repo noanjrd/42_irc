@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2025/12/19 14:55:46 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:08:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ public:
 	std::string& getNickname();
 	int getFd();
 
+	bool operator==(Client& cl);
+
 	void authentication(std::string& command);
 	void configure(std::string& commands);
 	void JoinChanel(std::string& chaneltemp);
 	void sendconnexionconfimation() const;
+	void autoconfigure();
+	void autoconfigure2();
 };
-
-bool usernameExist(Server &server, std::string& username);

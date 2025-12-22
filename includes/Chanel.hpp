@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:30 by njard             #+#    #+#             */
-/*   Updated: 2025/12/19 14:33:16 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/22 15:40:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ public:
 	Chanel(std::string name, Client &client);
 	~Chanel();
 
-	void JoinChanel(Client &client);
 	std::string getName();
 	std::vector<std::pair<Client*, int> >& getClients();
+
+	bool isUserOperator(Client &client);
+	void JoinChanel(Client &client);
 };
