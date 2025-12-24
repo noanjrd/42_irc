@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2025/12/22 16:09:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/24 15:56:23 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ std::string& Client::getNickname()
 	return this->nickname;
 }
 
-bool Client::operator==(Client& cl)
+bool Client::operator==(Client& cl) const
 {
 	if (cl.getUsername() == this->username)
 	{

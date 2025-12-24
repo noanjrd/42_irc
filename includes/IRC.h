@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:27:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/22 15:56:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/24 15:39:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,4 @@ Chanel* strChaneltoChanelType(Server& server, std::string& chanelname);
 void JOIN(Client &client, std::string &commands);
 void NAMES(Client& client, std::string& commands);
 void KICK(Client& client, std::string& commands);
+void TOPIC(Client &client, std::string& commands);

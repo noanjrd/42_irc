@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/24 14:07:04 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/24 15:41:24 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ int process_mess(std::string commands, Client &client) // ici on pourra faire de
 	if (command == "KICK")
 	{
 		KICK(client, commands);
+		return 0;
+	}
+	if (command == "TOPIC")
+	{
+		TOPIC(client, commands);
 		return 0;
 	}
 	// std::cout << "Configured" << std::endl;

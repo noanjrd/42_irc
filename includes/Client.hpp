@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2025/12/22 16:08:51 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/24 15:56:16 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ private:
 	int fd;
 	bool configured;
 	bool authenticated;
-	// bool administrators;
 
 public:
 	Client(int fd, Server &server);
@@ -43,7 +42,7 @@ public:
 	std::string& getNickname();
 	int getFd();
 
-	bool operator==(Client& cl);
+	bool operator==(Client& cl) const;
 
 	void authentication(std::string& command);
 	void configure(std::string& commands);

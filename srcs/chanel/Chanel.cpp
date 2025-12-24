@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2025/12/22 16:24:54 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/24 15:55:43 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Chanel::Chanel() {}
 
-Chanel::Chanel(std::string name, Client &client) : name(name)
+Chanel::Chanel(std::string name, Client &client) : name(name), topicForAll(false)
 {
 	this->clients.push_back(std::pair<Client*,int>(&client , OPERATORS));
 	this->clients_usernames.push_back(client.getUsername());
@@ -54,7 +54,7 @@ void Chanel::JoinChanel(Client &client)
 	}
 }
 
-bool Chanel::isUserOperator(Client &client)
+bool Chanel::isUserOperator(Client &client) const
 {
 	std::string username = client.getUsername();
 	for (size_t i = 0; i < this->clients.size(); i++)
@@ -68,4 +68,9 @@ bool Chanel::isUserOperator(Client &client)
 		}
 	}
 	return false;
+}
+
+bool Chanel::getTopicForAll() const
+{
+	return this->topicForAll;
 }
