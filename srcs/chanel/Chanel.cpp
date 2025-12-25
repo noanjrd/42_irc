@@ -6,15 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2025/12/24 19:17:13 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/25 14:44:01 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/IRC.h"
 
-// Chanel::Chanel() {}
-
-Chanel::Chanel(std::string name, Client &client) : name(name), topicForAll(false)
+Chanel::Chanel(std::string name, Client &client) : name(name), userlimit(0),  topicForAll(false), InviteOnly(false), HasAUserLimit(false)
 {
 	this->clients.push_back(std::pair<Client*,int>(&client , OPERATORS));
 	std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@host JOIN #" + this->name +  "\r\n";
@@ -42,12 +40,12 @@ void Chanel::JoinChanel(Client &client)
 	else
 	{
 		std::cout << "Client joined" << std::endl;
-        this->clients.push_back(std::pair<Client*, int>(&client, DEFAULT));
-        std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@host JOIN #" + this->name + "\r\n";
-        for (size_t i = 0; i < this->clients.size(); i++)
-        {
-            send(this->clients[i].first->getFd() , confirmation.c_str(),  confirmation.length(),0);
-        }
+		this->clients.push_back(std::pair<Client*, int>(&client, DEFAULT));
+		std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@host JOIN #" + this->name + "\r\n";
+		for (size_t i = 0; i < this->clients.size(); i++)
+		{
+			send(this->clients[i].first->getFd() , confirmation.c_str(),  confirmation.length(),0);
+		}
 	}
 }
 
@@ -77,7 +75,7 @@ void Chanel::setTopic(std::string topicinput)
 	this->topic = topicinput;
 }
 
-bool Chanel::isUserInChanel(Client& client)
+bool Chanel::isUserInChanel(Client& client) const
 {
 	for (size_t i = 0; i < this->clients.size(); i++)
 	{
@@ -85,4 +83,17 @@ bool Chanel::isUserInChanel(Client& client)
 			return true;
 	}
 	return false;
+}
+
+void Chanel::sendMessageToAll(Client& client, std::string message) const
+{
+	std::string entiremessage = ":" +  client.getNickname() + "!" + client.getUsername()+"@localhost PRIVMSG "  + this->name + " :" + message + "\r\n"; 
+	for (size_t i = 0; i < this->clients.size(); i++)
+	{
+		if (*(clients[i].first) != client)
+		{
+			send(clients[i].first->getFd(), entiremessage.c_str(), entiremessage.length(),0);
+		}
+	}
+	return ;
 }

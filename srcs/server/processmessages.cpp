@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/24 19:17:41 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/25 14:40:15 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void split_message(std::string commands, Client &client)
 {
-	std::cout << "Entire command " << commands << std::endl;
+	std::cout << "Entire command :" << commands << std::endl;
 	int i = 0;
 	std::string line;
 	if (commands.length() == 0)
@@ -40,14 +40,14 @@ void split_message(std::string commands, Client &client)
 	}
 }
 
-int process_mess(std::string commands, Client &client) // ici on pourra faire des pointeurs sur fonctions
+void process_mess(std::string commands, Client &client) // ici on pourra faire des pointeurs sur fonctions
 {
-	std::cout << "splited command : " << commands << std::endl;
+	std::cout << "splited command :" << commands << std::endl;
 	std::string command = get_word(commands, 1);
 	if (command.empty())
 	{
 		std::cerr << "Empty input" << std::endl;
-		return 0;
+		return ;
 	}
 	if (command == "auto") // tu peux utiliser la commande auto ou auto2 pour pas avoir a faire la configuration du client
 	{
@@ -60,12 +60,12 @@ int process_mess(std::string commands, Client &client) // ici on pourra faire de
 	if (client.getAuthenticated() == false)
 	{
 		client.authentication(commands);
-		return 0;
+		return ;
 	}
 	if (client.getConfigured() == false)
 	{
 		client.configure(commands);
-		return 0;
+		return ;
 	}
 	if (command == "JOIN")
 	{
@@ -74,17 +74,23 @@ int process_mess(std::string commands, Client &client) // ici on pourra faire de
 	if (command == "NAMES")
 	{
 		NAMES(client, commands);
-		return 0;	
+		return ;	
 	}
 	if (command == "KICK")
 	{
 		KICK(client, commands);
-		return 0;
+		return ;
 	}
 	if (command == "TOPIC")
 	{
 		TOPIC(client, commands);
-		return 0;
-	}	
-	return 0;
+		return ;
+	}
+	if (command == "PRIVMSG")
+	{
+		std::cout << "Here" << std::endl;
+		PRIVMSG(client, commands);
+		return ;
+	}
+	return ;
 }

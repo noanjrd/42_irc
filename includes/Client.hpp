@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2025/12/24 19:08:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/25 14:28:04 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ public:
 	int getFd();
 
 	bool operator==(Client& cl) const;
+	bool operator!=(Client& cl) const;
 
 	void authentication(std::string& command);
 	void configure(std::string& commands);

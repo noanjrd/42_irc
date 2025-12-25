@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:27:22 by njard             #+#    #+#             */
-/*   Updated: 2025/12/24 19:08:25 by njard            ###   ########.fr       */
+/*   Updated: 2025/12/25 14:17:59 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 // SERVER
 
-int process_mess(std::string message, Client &client);
+void process_mess(std::string message, Client &client);
 void split_message(std::string commands, Client &client);
 void initpoll(Server &server);
 
@@ -54,3 +54,4 @@ void JOIN(Client &client, std::string &commands);
 void NAMES(Client& client, std::string& commands);
 void KICK(Client& client, std::string& commands);
 void TOPIC(Client &client, std::string& commands);
+void PRIVMSG(Client &client, std::string& message);
