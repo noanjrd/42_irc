@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Chanel.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/04 21:32:18 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/05 14:46:08 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ void Chanel::sendMessageToAllQuit(Client& client, std::string quitMessage) const
 {
     for (size_t i = 0; i < clients.size(); i++)
     {
-        if (clients[i].first != &client)
+		(void)client;
+        // if (clients[i].first != &client)
             send(clients[i].first->getFd(), quitMessage.c_str(), quitMessage.length(), 0);
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MODE.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:30:27 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/03 20:16:58 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/05 14:57:23 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void MODE(Client& client, std::string& commands)
 			channel->setInviteOnly(true);
 		else
 			channel->setInviteOnly(false);
+//:Nick!user@host MODE #channel +i
 	}
 	else if (mode == 't')
 	{

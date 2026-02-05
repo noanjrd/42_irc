@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   KICK.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 15:15:17 by njard             #+#    #+#             */
-/*   Updated: 2026/01/26 17:17:33 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/05 14:43:51 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ void KICK(Client& client, std::string& commands)
 	reason.erase(std::remove(reason.begin(), reason.end(), '\n'), reason.end());
 	reason.erase(std::remove(reason.begin(), reason.end(), '\r'), reason.end());
 
-	if ((client.getServer().isChanelExist(chanel) == false))
-	{
-		std::cerr << "Chanel does not exist" << std::endl;
-		return ;
-	}
+	// if ((client.getServer().isChanelExist(chanel) == false))
+	// {
+	// 	std::cerr << "Chanel does not exist" << std::endl;
+	// 	return ;
+	// }
 
-	if (client.getServer().isUserNameInServer(username) ==  false)
-	{
-		std::cerr << "User not in server" << std::endl;
-		return ;
-	}
+	// if (client.getServer().isUserNameInServer(username) ==  false)
+	// {
+	// 	std::cerr << "User not in server" << std::endl;
+	// 	return ;
+	// }
 
 	std::vector<Chanel*>& allChannels = client.getServer().getChanels();
 	for (size_t i = 0; i < allChannels.size(); i++)

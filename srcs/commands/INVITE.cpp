@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   INVITE.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 19:42:20 by naziha            #+#    #+#             */
-/*   Updated: 2026/02/04 21:49:21 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/05 13:46:42 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/IRC.h"
 
 //INVITE <nickname> <#channel>
+
 void INVITE(Client& client, std::string& commands)
-    {
+{
     int words = count_words(commands);
     if (words != 3)
     {
