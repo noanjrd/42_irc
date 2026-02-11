@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Chanel.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:30 by njard             #+#    #+#             */
-/*   Updated: 2026/02/04 21:31:58 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/11 15:30:35 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ public:
 	std::string getName();
 	std::vector<std::pair<Client*, int> >& getClients();
 	bool getTopicProtected() const;
-
+	
 	
 	void setTopic(std::string topic);
+	std::string getTopic();
+	
 	void setPassword(std::string param);
 	
 	
@@ -56,7 +58,7 @@ public:
 	void sendMessageToAll(Client& client, std::string message) const;
 	void sendMessageToAllQuit(Client& client, std::string quitMessage) const;
 	void removeClient(Client& client);
-
+	
 	void setInviteOnly(bool value);
     bool isInviteOnly() const;
 	bool isInvited(const std::string& nickName);

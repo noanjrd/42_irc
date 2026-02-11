@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/05 14:46:08 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:52:23 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ bool Chanel::getTopicProtected() const
 void Chanel::setTopic(std::string topicinput)
 {
 	this->topic = topicinput;
+}
+
+std::string Chanel::getTopic()
+{
+	return (this->topic);
 }
 
 bool Chanel::isUserInChanel(Client& client) const
