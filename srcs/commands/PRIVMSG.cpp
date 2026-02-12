@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 14:15:42 by njard             #+#    #+#             */
-/*   Updated: 2025/12/25 14:42:48 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/12 15:50:15 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void PRIVMSG(Client &client, std::string& commands)
 {
+	// std::cerr << "commands :" + commands << std::endl;
 	int words = count_words(commands);
 	if (words < 3)
 	{
@@ -21,10 +22,10 @@ void PRIVMSG(Client &client, std::string& commands)
 		return ;
 	}
 	int i = 3;
-	std::string message;
+	std::string message = "";
 	while (i <= words)
 	{
-		message+= get_word(commands, i);
+		message+= " " + get_word(commands, i);
 		i++;
 	}
 	if (message[0] != ':')
@@ -32,9 +33,8 @@ void PRIVMSG(Client &client, std::string& commands)
 		std::cerr << "Error syntax message" << std::endl;
 		return ;
 	}
-	message = message.substr(1);
+	message = message.substr(2);
 	std::string destination = get_word(commands, 2);
-	
 	if (destination[0] == '#')
 	{
 		destination = destination.substr(1);
@@ -51,6 +51,18 @@ void PRIVMSG(Client &client, std::string& commands)
 		}
 		chaneltemp->sendMessageToAll(client, message);
 	}
-	std::cout << "finsihed" << std::endl;
+	else
+	{
+		// std::cerr << "dest : " << destination << std::endl;
+		Client* receiver = client.getServer().getClientByNick(destination);
+		if (receiver == NULL)
+		{
+			std::cerr << "Nickname not found" << std::endl;
+			return ;
+		}
+		std::string message_formatted = ":" + client.getNickname() + "!" + client.getUsername() + "@localhost PRIVMSG " + receiver->getNickname() + " :"+ message + "\r\n";
+		send(receiver->getFd(),message_formatted.c_str(),message_formatted.size(),0);
+	}
+	// std::cout << "finished privmsg" << std::endl;
 	return ;
 }

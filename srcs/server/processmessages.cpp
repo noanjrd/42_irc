@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processmessages.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/04 21:48:39 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/12 15:35:21 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void process_mess(std::string commands, Client &client) // ici on pourra faire d
 {
 	std::cout << "splited command :" << commands << std::endl;
 	std::string command = get_word(commands, 1);
+
 	if (command.empty())
 	{
 		std::cerr << "Empty input" << std::endl;
@@ -67,50 +68,15 @@ void process_mess(std::string commands, Client &client) // ici on pourra faire d
 		client.configure(commands);
 		return ;
 	}
-	if (command == "JOIN")
+	void (*functions[9])(Client&, std::string&) = {JOIN, NAMES, KICK, TOPIC, PRIVMSG, QUIT, PART, MODE, INVITE};
+	std::string functions_name[9] = {"JOIN", "NAMES", "KICK", "TOPIC", "PRIVMSG", "QUIT", "PART", "MODE", "INVITE"};
+	for (int i = 0; i < 9; i++)
 	{
-		JOIN(client, commands);
-	}
-	if (command == "NAMES")
-	{
-		NAMES(client, commands);
-		return ;	
-	}
-	if (command == "KICK")
-	{
-		KICK(client, commands);
-		return ;
-	}
-	if (command == "TOPIC")
-	{
-		TOPIC(client, commands);
-		return ;
-	}
-	if (command == "PRIVMSG")
-	{
-		std::cout << "Here" << std::endl;
-		PRIVMSG(client, commands);
-		return ;
-	}
-	if (command == "QUIT")
-	{
-		QUIT(client, commands);
-		return ;
-	}
-	if (command == "PART")
-	{
-		PART(client, commands);
-		return ;
-	}
-	if (command == "MODE")
-	{
-		MODE(client, commands);
-		return ;
-	}
-	if (command == "INVITE")
-	{
-		INVITE(client, commands);
-		return ;
+		if (command == functions_name[i])
+		{
+			(functions)[i](client, commands);
+			break;
+		}
 	}
 	return ;
 }
