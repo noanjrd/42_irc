@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2026/02/03 19:48:53 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/11 13:35:35 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ void JOIN(Client &client, std::string &commands)
 	int words = count_words(commands);
 	if (words < 2)
 	{
-		std::cerr << "461 JOIN :Not enough parameters" << std::endl;
+		std::string error = ":server 461 " + client.getNickname() + " JOIN :Not enough parameters\r\n";
+		send(client.getFd(), error.c_str(), error.size(), 0);
 		return ;
 	}
 	
-	std::string chanelname = get_word(commands,2);
-	if (chanelname[0] != '#')
+	std::string chanelname = get_word(commands, 2);
+	if (chanelname.empty() || chanelname[0] != '#')
 	{
-		std::cerr << "403 :Missing # in channel name";
+		std::string error = ":server 403 " + client.getNickname() + " " + chanelname + " :No such channel\r\n";
+		send(client.getFd(), error.c_str(), error.size(), 0);
 		return ;
 	}
 	chanelname = chanelname.substr(1);
@@ -33,7 +35,7 @@ void JOIN(Client &client, std::string &commands)
 	if (words >= 3)
 		password = get_word(commands, 3);
 
-	Chanel * chaneltemp = strChaneltoChanelType(client.getServer() ,chanelname);
+	Chanel * chaneltemp = strChaneltoChanelType(client.getServer(), chanelname);
 	if (chaneltemp == NULL)
 	{
 		Chanel* newchannel = new Chanel(chanelname, client);
@@ -48,19 +50,22 @@ void JOIN(Client &client, std::string &commands)
 	}
 	if ((chaneltemp->isInviteOnly() == true) && (chaneltemp->isInvited(client.getNickname()) == false))
 	{
-		std::cerr << "473 " << chanelname << " :Cannot join channel (+i)" << std::endl;
+		std::string error = ":server 473 " + client.getNickname() + " #" + chanelname + " :Cannot join channel (+i)\r\n";
+		send(client.getFd(), error.c_str(), error.size(), 0);
 		return;
 	}
-	if ((chaneltemp->isHasPassword() == true) && (chaneltemp->checkPassword(password)== false))
+	if ((chaneltemp->isHasPassword() == true) && (chaneltemp->checkPassword(password) == false))
 	{
-		std::cerr << "475 " << chanelname << " :Cannot join channel (+k)" << std::endl;
+		std::string error = ":server 475 " + client.getNickname() + " #" + chanelname + " :Cannot join channel (+k)\r\n";
+		send(client.getFd(), error.c_str(), error.size(), 0);
 		return;
 	}
 	if (chaneltemp->ishasAUserLimit() == true)
 	{
 		if (chaneltemp->getClients().size() >= chaneltemp->getUserLimit())
 		{
-			std::cerr << "471 " << chanelname << " :Cannot join channel (+l)" << std::endl;
+			std::string error = ":server 471 " + client.getNickname() + " #" + chanelname + " :Cannot join channel (+l)\r\n";
+			send(client.getFd(), error.c_str(), error.size(), 0);
 			return;
 		}
 	}
@@ -72,6 +77,7 @@ void JOIN(Client &client, std::string &commands)
 	}
 	catch (std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::string error = ":server 400 " + client.getNickname() + " :Error joining channel\r\n";
+		send(client.getFd(), error.c_str(), error.size(), 0);
 	}
 }
