@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   INVITE.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 19:42:20 by naziha            #+#    #+#             */
-/*   Updated: 2026/02/12 15:56:32 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/16 11:41:24 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void INVITE(Client& client, std::string& commands)
     }
 
     std::string nick = get_word(commands, 2);
-    if (client.getServer().isUserNameInServer(nick) == false)
+    if (client.getServer().isNicknameInServer(nick) == false)
     {
         std::string error = ":server 401 " + client.getNickname() + " " + nick + " :No such nick\r\n";
         send(client.getFd(), error.c_str(), error.size(), 0);

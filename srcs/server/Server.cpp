@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2026/02/12 15:09:08 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/16 11:36:03 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void Server::removeClient(Client& client)
     }
 }
 
-bool Server::isUserNameInServer(const std::string& nickname)
+bool Server::isNicknameInServer(const std::string& nickname)
 {
     for (size_t i = 0; i < this->client_connexions.size(); i++)
     {
