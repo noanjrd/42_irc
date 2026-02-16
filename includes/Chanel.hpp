@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:30 by njard             #+#    #+#             */
-/*   Updated: 2026/02/11 15:30:35 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:18:04 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,7 @@ public:
     bool ishasAUserLimit() const;
 	void setUserLimit(int limit);
 	size_t getUserLimit() const;
+	
+	bool channelHasOperator() const;// voir sil y a un operator dasn le channel sinon il faut donner le mode operator au premier client de la liste du channel
+	void giveOperator();
 };

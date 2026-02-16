@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 12:31:18 by naziha            #+#    #+#             */
-/*   Updated: 2026/02/12 14:51:02 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/13 16:07:39 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,14 @@ void QUIT(Client &client, std::string &commands)
             if (channel->isUserInChanel(client))
             {
                 channel->sendMessageToAllQuit(client, finalMessage);
-                send(fd, finalMessage.c_str(), finalMessage.size(), 0);
                 channel->removeClient(client);
+                
+                if (!channel->getClients().empty())
+                {
+                    if (channel->channelHasOperator() == false)
+                        channel->giveOperator();
+                }
+                
                 if (channel->getClients().empty())
                     toRemove.push_back(channel);
             }

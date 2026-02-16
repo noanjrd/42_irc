@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:45:53 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/12 15:59:03 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/13 16:22:08 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,22 @@ void PART(Client& client, std::string& commands)
 			continue ;
 		}
         
+        
 		std::string finalMessage = ":" + client.getNickname() + "!" + client.getUsername() + "@localhost PART #" + channelName;
 		if (!reason.empty())
             finalMessage += " :" + reason;
         finalMessage += "\r\n";
 
         channel->sendMessageToAllQuit(client, finalMessage);
-        // send(client.getFd(), finalMessage.c_str(), finalMessage.size(), 0);
-        
+
 		channel->removeClient(client);
+
+        if (!channel->getClients().empty())
+        {
+            if (channel->channelHasOperator() == false)
+                channel->giveOperator();
+        }
+
 		if(channel->getClients().empty())
 			client.getServer().removeChannel(channel);
 		}		

@@ -6,12 +6,9 @@ To-do-list :
  - MODE: tests oks
  - INVITE: test ok
  - 
- - Bons messages d'erreur pour toutes les commandes // Noan
-
- - PRIVMSG for client to client // Noan
- - Faire des pointeurs sur fonctions dans process_mess()
-
+ - Bons messages d'erreur pour toutes les commandes // Nana
  - Signaux
+
  - PONG et PING peut etre, à voir si c'est utile
 
  - Un bot (bonus) // Naziha
@@ -227,7 +224,10 @@ KICK #test bob :Tu es banni !
 → broadcast avec raison
 
 NAMES #test
+
 NAMES
+
 NAMES test
+
 NAMES #doesnotexist
 

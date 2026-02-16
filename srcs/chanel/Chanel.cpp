@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/11 15:52:23 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/13 16:08:41 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,4 +216,28 @@ void Chanel::setUserLimit(int limit)
 size_t Chanel::getUserLimit() const
 {
 	return (userlimit);
+}
+
+bool Chanel::channelHasOperator() const
+{
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (clients[i].second == OPERATORS)
+			return (true);
+	}
+	return (false);
+}
+
+void Chanel::giveOperator()
+{
+	if (clients.empty())
+		return ;
+	if (channelHasOperator() == true)
+		return ;
+	clients[0].second = OPERATORS;
+
+	std::string message = ":server MODE #" + name + " +o" + clients[0].first->getNickname() + "\r\n";
+	
+	for (size_t i = 0; i < clients.size(); i++)
+		send(clients[i].first->getFd(), message.c_str(), message.size(), 0);
 }
