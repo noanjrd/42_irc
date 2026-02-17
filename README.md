@@ -6,8 +6,8 @@ To-do-list :
  - MODE: tests oks
  - INVITE: test ok
  - 
+ - Signaux ok
  - Bons messages d'erreur pour toutes les commandes // Nana
- - Signaux
 
  - PONG et PING peut etre, à voir si c'est utile
 

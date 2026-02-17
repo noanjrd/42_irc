@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IRC.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naziha <naziha@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:27:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/04 19:44:31 by naziha           ###   ########.fr       */
+/*   Updated: 2026/02/17 14:45:24 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@
 #include <poll.h>
 #include <algorithm>
 #include <map>
+#include <signal.h>
 
 #include "Client.hpp"
 #include "Server.hpp"
 #include "Chanel.hpp"
 #include "ClientConnexion.hpp"
+
+// SIGNALS
+
+extern volatile sig_atomic_t g_running;
+void handleSignal(int sig);
 
 // ROLE
 

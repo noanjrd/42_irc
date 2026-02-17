@@ -13,6 +13,7 @@ SRCS = srcs/main.cpp\
 	srcs/server/Server.cpp\
 	srcs/server/poll.cpp\
 	srcs/server/processmessages.cpp\
+	srcs/server/signals.cpp\
 	srcs/commands/JOIN.cpp\
 	srcs/commands/NAMES.cpp\
 	srcs/commands/KICK.cpp\

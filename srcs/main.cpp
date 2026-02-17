@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:04:17 by njard             #+#    #+#             */
 /*   Updated: 2026/02/17 16:32:08 by njard            ###   ########.fr       */
@@ -19,6 +19,12 @@
 
 int main(int argc, char** argv)
 {
+	signal(SIGINT, handleSignal);
+	signal(SIGTERM, handleSignal);
+	signal(SIGPIPE, SIG_IGN);
+	
+	std::cout << "Serveur en cours d'exécution. Tapez Ctrl+C pour quitter.\n";
+	
 	if (argc < 3)
 	{
 		std::cerr << "Wrong number of arguments." << std::endl;

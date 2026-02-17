@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2026/02/16 11:36:03 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/17 15:03:49 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,14 @@ Server::Server() {}
 
 Server::Server(int fd, int port, std::string pswd) : sevrer_fd(fd), port(port), password(pswd) {}
 
-Server::~Server() {}
+Server::~Server() 
+{
+	for (size_t i = 0; i < chanels.size(); i++)
+		delete chanels[i];
+	
+	for (size_t i = 0; i < client_connexions.size(); i++)
+		delete client_connexions[i];
+}
 
 int Server::getFd() const
 {
@@ -65,11 +72,17 @@ bool Server::isUserInServer(Client& client)
 
 void Server::removeClient(Client& client)
 {
+	for (size_t i = 0; i < chanels.size(); i++)
+    {
+        chanels[i]->removeClient(client);
+    }
+	
     for (size_t i = 0; i < client_connexions.size(); i++)
     {
 		Client* c = &client_connexions[i]->getClient();
         if (c == &client)
         {
+			close(c->getFd());
 			delete client_connexions[i];
             client_connexions.erase(client_connexions.begin() + i);
             return;
