@@ -3,21 +3,15 @@ NICK alice
 USER alice 0 * :Alice Realnamehttps://drive.google.com/drive/folders/1CvhcWoYVKGTLKTYdsStuBnp6FZBvWzg0?usp=sharing
 
 To-do-list : 
- - MODE: tests oks
- - INVITE: test ok
- - 
- - Signaux ok
- - Bons messages d'erreur pour toutes les commandes // Nana
+
+ - check all variables names
 
  - PONG et PING peut etre, à voir si c'est utile
 
  - Un bot (bonus) // Naziha
  - Le transfert de fichiers (bonus)
  
- - Bien fermer le serveur sans leak // Noan
  - Faire des gros tests // Both of us #twins
- - Voir si c'est mieux de mettre des try and catch partout
-
 
 Apres QUIT pourquoi je dois faire entrer pour vrm quitter ?
 transfert d operateur sil ny en a plu dans le channel ?

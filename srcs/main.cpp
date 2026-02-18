@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:04:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/17 16:32:08 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/18 12:34:34 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int main(int argc, char** argv)
 		std::cerr << "Format: <port> <server_password>" << std::endl;
 		return 1;
 	}
-	(void)argv;
+
+	// (void)argv;
+
 	int port = atoi(argv[1]);
 	if (port >= 0 && port <= 1023)
 	{
@@ -44,14 +46,14 @@ int main(int argc, char** argv)
 		std::cerr << "Please enter a port between 1023 and 65535." << std::endl;
 		return 1;
 	}
-	std::string password = argv[2];
-	int server_fd = socket(AF_INET,SOCK_STREAM,0);
 
+	std::string password = argv[2];
+
+	int server_fd = socket(AF_INET,SOCK_STREAM,0);
 	struct sockaddr_in address; // definition adresse du serveur
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(port);
-
 	bind(server_fd, (struct sockaddr*)&address, sizeof(address)); // associce le socket a l adrsse
 	listen(server_fd, 99); //socket ouvert pret a ecouter, 99 est le nb max de connections avant la file d attente
 	Server server(server_fd, port, password);

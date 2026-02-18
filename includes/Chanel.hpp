@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:30 by njard             #+#    #+#             */
-/*   Updated: 2026/02/13 14:18:04 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:34:35 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ private:
 
 	size_t		userlimit;
 
-	bool 	inviteOnly; // i
+	bool 	inviteOnly;
 	std::set<std::string> invited;
 
-	bool 	topicProtected; // -t for MODE
-	bool 	hasPassword; // -k
-	bool 	hasAUserLimit; // -l
+	bool 	topicProtected;
+	bool 	hasPassword;
+	bool 	hasAUserLimit;
 	
 
 public:
