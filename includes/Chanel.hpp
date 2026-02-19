@@ -28,12 +28,12 @@ private:
 
 	size_t		userlimit;
 
-	bool 	inviteOnly; // i
+	bool 	inviteOnly;
 	std::set<std::string> invited;
 
-	bool 	topicProtected; // -t for MODE
-	bool 	hasPassword; // -k
-	bool 	hasAUserLimit; // -l
+	bool 	topicProtected;
+	bool 	hasPassword;
+	bool 	hasAUserLimit;
 	
 
 public:

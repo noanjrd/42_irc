@@ -3,6 +3,10 @@ NICK alice
 USER alice 0 * :Alice Realnamehttps://drive.google.com/drive/folders/1CvhcWoYVKGTLKTYdsStuBnp6FZBvWzg0?usp=sharing
 
 To-do-list : 
+
+
+ - check all variables names
+
  - a verifier les deux points dans kick
  - verifier il se passe quoi si on met pas les ':' avant les messages
  - voir si cette ligne est util quitMessage.erase(std::remove(quitMessage.begin(), quitMessage.end(), '\n'), quitMessage.end());
@@ -15,10 +19,7 @@ To-do-list :
  - Un bot (bonus) // Naziha
  - Le transfert de fichiers (bonus)
  
- - Bien fermer le serveur sans leak // Noan
  - Faire des gros tests // Both of us #twins
- - Voir si c'est mieux de mettre des try and catch partout
-
 
 Apres QUIT pourquoi je dois faire entrer pour vrm quitter ?
 transfert d operateur sil ny en a plu dans le channel ?
