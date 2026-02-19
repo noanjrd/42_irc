@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:30:27 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/18 15:54:47 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/19 12:41:17 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 // MODE #channel -mode param
 
-void MODE(Client& client, std::string& commands)
+void MODE(Client& client, std::vector<std::string>& commands)
 {
-	int words = count_words(commands);
-	if (words < 3)
+	int countWords = commands.size();
+	if (countWords < 3)
 	{
 		std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 		send(client.getFd(), error.c_str(), error.size(), 0);
 		return ;
 	}
 
-	std::string channelName = get_word(commands, 2);
+	std::string channelName = commands[1];
 	if (channelName.empty() || channelName[0] != '#')
 	{
 		std::string error = ":server 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
@@ -33,7 +33,7 @@ void MODE(Client& client, std::string& commands)
 	}
 	channelName = channelName.substr(1);
 	
-	std::string modeT = get_word(commands, 3);
+	std::string modeT = commands[2];
 	if (modeT.size() != 2)
 	{
 		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, modeT[0]) + " :is unknown mode char to me\r\n";
@@ -59,7 +59,7 @@ void MODE(Client& client, std::string& commands)
 	std::string param;
 	if (mode == 'i' || mode == 't')
 	{
-		if (words > 3)
+		if (countWords > 3)
 		{
 			std::string error = ":server 461 " + client.getNickname() + " MODE :Too many parameters\r\n";
 			send(client.getFd(), error.c_str(), error.size(), 0);
@@ -71,28 +71,17 @@ void MODE(Client& client, std::string& commands)
 		
 		if (sign == '+')
 		{
-			if (words < 4)
+			if (countWords < 4)
 			{
 				std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 				send(client.getFd(), error.c_str(), error.size(), 0);
 				return;
 			}
 		}
-		if (words >= 4)
-		{		
-			size_t pos = commands.find(modeT);
-			if (pos != std::string::npos)
-			{
-				pos += modeT.size();
-				param = commands.substr(pos);
-
-				while (!param.empty() && param[0] == ' ')
-					param.erase(0, 1);
-				if (!param.empty() && param[0] == ':')
-					param = param.substr(1);
-				else
-					param = get_word(commands, 4);
-			}
+		if (countWords >= 4)
+		{
+			if (!param.empty() && param[0] == ':')
+				param = param.substr(1);
 		}
 	}
 
@@ -179,7 +168,6 @@ void MODE(Client& client, std::string& commands)
 					users[i].second = OPERATORS;
 					break ;
 				}
-					
 			}
 		}
 		else

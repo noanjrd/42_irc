@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/18 17:08:17 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/19 12:01:16 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,53 +104,13 @@ void process_mess(std::string commands, Client &client) // ici on pourra faire d
 		client.configure(commands);
 		return ;
 	}
-	if (commands_vector[0] == "JOIN")
-	{
-		JOIN(client, commands_vector);
-		return ;
-	}
-	if (commands_vector[0] == "KICK")
-	{
-		KICK(client, commands_vector);
-		return ;
-	}
-	if (commands_vector[0] == "PRIVMSG")
-	{
-		PRIVMSG(client, commands_vector);
-		return ;
-	}
-	if (commands_vector[0] == "NAMES")
-	{
-		NAMES(client, commands_vector);
-		return ;
-	}
-	if (commands_vector[0] == "TOPIC")
-	{
-		TOPIC(client, commands_vector);
-		return ;
-	}
-	if (commands_vector[0] == "INVITE")
-	{
-		INVITE(client, commands_vector);
-		return ;
-	}
-	if (commands_vector[0] == "PART")
-	{
-		PART(client, commands_vector);
-		return ;
-	}
-	if (commands_vector[0] == "QUIT")
-	{
-		QUIT(client, commands_vector);
-		return ;
-	}
-	void (*functions[9])(Client&, std::string&) = { MODE};
-	std::string functions_name[7] = {"MODE"};
+	void (*functions[9])(Client&, std::vector<std::string>&) = {JOIN, KICK, PRIVMSG, NAMES, TOPIC, INVITE, PART, QUIT, MODE};
+	std::string functions_name[9] = {"JOIN", "KICK", "PRIVMSG", "NAMES", "TOPIC", "INVITE", "PART", "QUIT", "MODE"};
 	for (int i = 0; i < 9; i++)
 	{
 		if (command == functions_name[i])
 		{
-			(functions)[i](client, commands);
+			(functions)[i](client, commands_vector);
 			break;
 		}
 	}

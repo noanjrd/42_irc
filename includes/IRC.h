@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:27:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/18 17:08:02 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/19 11:58:46 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void TOPIC(Client &client, std::vector<std::string>& commands);
 void PRIVMSG(Client &client, std::vector<std::string>& message);
 void QUIT(Client &client, std::vector<std::string>& commands);
 void PART(Client& client, std::vector<std::string>& commands);
-void MODE(Client& client, std::string& commands);
+void MODE(Client& client, std::vector<std::string>& commands);
 void INVITE(Client& client, std::vector<std::string>& commands);
