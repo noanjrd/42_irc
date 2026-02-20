@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/19 15:34:23 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/20 13:52:58 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,37 +79,40 @@ void process_mess(std::string commands, Client &client) // ici on pourra faire d
 	{
 		std::cout << commands_vector[i] << std::endl;
 	}
-	std::cout << "end\n";
-	std::string command = get_word(commands, 1);
 
-	if (command.empty())
+	if (commands.empty())
 	{
 		std::cerr << "Empty input" << std::endl;
 		return ;
 	}
-	if (command == "auto") // tu peux utiliser la commande auto ou auto2 pour pas avoir a faire la configuration du client
+	if (commands_vector[0] == "auto") // tu peux utiliser la commande auto ou auto2 pour pas avoir a faire la configuration du client
 	{
 		client.autoconfigure();
 	}
-	if (command == "auto2")
+	if (commands_vector[0]  == "auto2")
 	{
 		client.autoconfigure2();
 	}
 	if (client.getAuthenticated() == false)
 	{
-		client.authentication(commands);
+		client.authentication(commands_vector);
 		return ;
 	}
 	if (client.getConfigured() == false)
 	{
-		client.configure(commands);
+		client.configure(commands_vector);
+		return ;
+	}
+	if (commands_vector[0] == "WHO")
+	{
+		NAMES(client, commands_vector);
 		return ;
 	}
 	void (*functions[9])(Client&, std::vector<std::string>&) = {JOIN, KICK, PRIVMSG, NAMES, TOPIC, INVITE, PART, QUIT, MODE};
 	std::string functions_name[9] = {"JOIN", "KICK", "PRIVMSG", "NAMES", "TOPIC", "INVITE", "PART", "QUIT", "MODE"};
 	for (int i = 0; i < 9; i++)
 	{
-		if (command == functions_name[i])
+		if (commands_vector[0] == functions_name[i])
 		{
 			(functions)[i](client, commands_vector);
 			break;

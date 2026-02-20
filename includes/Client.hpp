@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2025/12/25 14:28:04 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/20 13:33:47 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ class Client
 private:
 	std::string nickname;
 	std::string username;
-	std::string password;
 	std::string realname;
 	Server &server;
 	int fd;
@@ -43,9 +42,8 @@ public:
 	bool operator==(Client& cl) const;
 	bool operator!=(Client& cl) const;
 
-	void authentication(std::string& command);
-	void configure(std::string& commands);
-	void JoinChanel(std::string& chaneltemp);
+	void authentication(std::vector<std::string>& command);
+	void configure(std::vector<std::string>& commands);
 	void sendconnexionconfimation() const;
 	void autoconfigure();
 	void autoconfigure2();

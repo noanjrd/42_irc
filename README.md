@@ -5,6 +5,7 @@ USER alice 0 * :Alice Realnamehttps://drive.google.com/drive/folders/1CvhcWoYVKG
 To-do-list : 
 
 
+ - tester si on peut se reconnecter apres etre parti
  - check all variables names
 
  - a verifier les deux points dans kick

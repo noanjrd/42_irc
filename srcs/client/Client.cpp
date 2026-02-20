@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/18 17:13:28 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/20 13:59:03 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,27 @@ std::string& Client::getUsername()
 	return this->username;
 }
 
-void Client::authentication(std::string& commands)
+// PASS <pswd>
+void Client::authentication(std::vector<std::string>& commands)
 {
-	if (count_words(commands) != 2)
+	int countWords = commands.size();
+	if (countWords != 2)
 	{
-		std::cerr << "Wrong number of words" << std::endl;
+		std::string error = ":server 461 " + this->getNickname() + " "+ commands[0] + " :Not enough parameters\r\n";
+		send(this->getFd(), error.c_str(), error.size(), 0);
 		return ;
 	}
-	std::string onlycommand = get_word(commands, 1);
-	if (onlycommand != "PASS")
+	std::string command = commands[0];
+	if (command != "PASS")
 	{
 		std::cerr << "Command PASS not found" << std::endl;
 		return ;
 	}
 	else
 	{
-		std::string passwordtemp = get_word(commands, 2);
-		std::cout << "|" << passwordtemp << "|" << std::endl;
-		if (passwordtemp != this->server.getPassword())
+		std::string passwordEntered = commands[1];
+		std::cout << "|" << passwordEntered << "|" << std::endl;
+		if (passwordEntered != this->server.getPassword())
 		{
 			std::string error_message = ":server 464 * :Password incorrect\r\n";
 			send(this->fd, error_message.c_str(),error_message.size(),0);
@@ -61,71 +64,71 @@ void Client::authentication(std::string& commands)
 			quit_message.push_back("QUIT");
 			QUIT(*this, quit_message);
 		}
-		this->password = passwordtemp;
 		this->authenticated = true;
 		std::cout << "Passwd entered" << std::endl;
 	}
 	return ;
 }
 
-void Client::configure(std::string& commands)
+// USER <u>sername> 0 * :<real name>
+void Client::configure(std::vector<std::string>& commands)
 {
-	int words = count_words(commands);
-	std::cout << "Words : " << words << std::endl;
-	if (words < 2)
+	int countWords =commands.size();
+	if (countWords < 2)
 	{
-		std::cerr << "Not enough words :(" << std::endl;
+		std::string error = ":server 461 " + this->getNickname() + " "+ commands[0] + " :Not enough parameters\r\n";
+		send(this->getFd(), error.c_str(), error.size(), 0);
 		return ;
 	}
-	std::string command = get_word(commands, 1);
-	if (command == "NICK" && words == 2)
+	std::string command = commands[0];
+	if (command == "NICK" && countWords == 2)
 	{
-		std::string nickname = get_word(commands,2);
+		std::string nickname = commands[1];
 		Client* temp = this->server.getClientByNick(nickname);
 		if (temp == NULL)
 		{
-			this->nickname = get_word(commands,2);
+			this->nickname = nickname;
 		}
 		else
 		{
-			std::string message_error = ":localhost 433 * "+ nickname+ ":Nickname is already in use\r\n";
-			send(this->fd, message_error.c_str(), message_error.size(),0);
+			std::string messageError = ":localhost 433 * "+ nickname+ ":Nickname is already in use\r\n";
+			send(this->fd, messageError.c_str(), messageError.size(),0);
 		}
 	}
-	else if (command == "USER" && words >= 5)
+	else if (command == "USER" && countWords >= 5)
 	{
-		std::string usernametemp = get_word(commands, 2);
-		std::string mode = get_word(commands, 3);
+		std::string usernameEntered = commands[1];
+		std::string mode = commands[2];
 		if (isstrdigit(mode) == false)
 		{
 			std::cerr << "Mode has to be a number" << std::endl;
 			return ;
 		}
-		std::string realnametemp;
-		int i = 5;
-		while(i <= words)
+		std::string realNameEntered;
+		int i = 4;
+		while(i < countWords)
 		{
-			realnametemp += get_word(commands, i);
-			if (i != words)
-				realnametemp += " ";
+			realNameEntered += commands[i];
+			if (i != countWords-1)
+				realNameEntered += " ";
 			i++;
 		}
-		if (realnametemp[0] != ':' || std::isspace(realnametemp[1]))
+		if (realNameEntered.length() < 2 || realNameEntered[0] != ':' || std::isspace(realNameEntered[1]))
 		{
-			std::cerr << "Missing ':'"  << realnametemp << std::endl;
+			std::cerr << "Missing ':'"  << realNameEntered << std::endl;
 			return ;
 		}
-		realnametemp.erase(0, 1); 
+		realNameEntered.substr(1); 
 		std::cout << "Username and realname changed" << std::endl;
-		this->realname = realnametemp;
-		this->username = usernametemp;
+		this->realname = realNameEntered;
+		this->username = usernameEntered;
 	}
 	else
 	{
 		std::cerr << "Need NICK or USER" << std::endl;
 	}
 	if (!this->nickname.empty() && !this->username.empty() 
-		&& !this->password.empty() && this->authenticated == 1)
+		 && this->authenticated == 1)
 	{
 		this->configured = true;
 		this->sendconnexionconfimation();
