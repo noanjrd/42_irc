@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:08:58 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/20 13:59:55 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/20 14:36:09 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int main(int argc, char **argv)
 	}	
 	
 	std::string pass = "PASS " + std::string(argv[3]) + "\r\n";
-	std::string nick = "NICK pingbot\r\n";
-	std::string user = "USER pingbot 0 * :pingbot\r\n";
+	std::string nick = "NICK bot\r\n";
+	std::string user = "USER bot 0 * :bot\r\n";
 
 	send(botFd, pass.c_str(), pass.size(), 0);
 	send(botFd, nick.c_str(), nick.size(), 0);
@@ -77,6 +77,15 @@ int main(int argc, char **argv)
 			std::string join = "JOIN #test\r\n";
 			send(botFd, join.c_str(), join.size(), 0);
 		}
+		
+		if (message.find("PRIVMSG #test") != std::string::npos)
+        {
+			if (message.find("Hi bot") != std::string::npos)
+			{
+				std::string response = "PRIVMSG #test :Hi human\r\n";
+				send(botFd, response.c_str(), response.size(), 0);
+			}
+        }
 		
 	}
 	close(botFd);
