@@ -1,5 +1,3 @@
-# enlever le relink
-
 NAME = ircserv
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -g3

@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2026/02/18 15:53:32 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/20 15:10:27 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/IRC.h"
 
-// JOIN <#channel>
+// JOIN <#channel> [password]
 
 void JOIN(Client &client, std::vector<std::string> &commands)
 {

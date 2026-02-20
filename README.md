@@ -1,236 +1,149 @@
-PASS secretpass
-NICK alice
-USER alice 0 * :Alice Realnamehttps://drive.google.com/drive/folders/1CvhcWoYVKGTLKTYdsStuBnp6FZBvWzg0?usp=sharing
-
-To-do-list : 
-
-
- - tester si on peut se reconnecter apres etre parti
- - check all variables names
-
- - a verifier les deux points dans kick
- - verifier il se passe quoi si on met pas les ':' avant les messages
- - voir si cette ligne est util quitMessage.erase(std::remove(quitMessage.begin(), quitMessage.end(), '\n'), quitMessage.end());
- - 
- - Signaux ok
- - Bons messages d'erreur pour toutes les commandes // Nana
-
- - PONG et PING peut etre, à voir si c'est utile
-
- - Un bot (bonus) // Naziha
- - Le transfert de fichiers (bonus)
- 
- - Faire des gros tests // Both of us #twins
-
-Apres QUIT pourquoi je dois faire entrer pour vrm quitter ?
-transfert d operateur sil ny en a plu dans le channel ?
-
-Liste de test realises:
-
-MODE
-→ Erreur 461 (pas assez de paramètres)
-
-MODE #test
-→ Erreur 461 (pas assez de paramètres)
-
-MODE test +i
-→ Erreur 403 (manque le #)
-
-MODE #inexistant +i
-→ Erreur 403 (channel n'existe pas)
-
-// En tant que user normal (pas opérateur)
-MODE #test +i
-→ Erreur 482 (pas opérateur du channel)
-
-// Sans être dans le channel
-MODE #autrechannel +i
-→ Erreur 442 (pas dans le channel)
-
-MODE #test +i
-→ Succès : channel devient invite-only
-
-MODE #test -i
-→ Succès : channel n'est plus invite-only
-
-MODE #test +i extra
-→ Erreur 461 (trop de paramètres pour mode i)
-
-MODE #test +t
-→ Succès : topic protégé (seuls les ops peuvent changer)
-
-MODE #test -t
-→ Succès : topic non protégé
-
-MODE #test +t param
-→ Erreur 461 (trop de paramètres pour mode t)
-
-MODE #test +k
-→ Erreur 461 (pas de mot de passe fourni)
-
-MODE #test +k monpass123
-→ Succès : mot de passe défini
-
-MODE #test +k autrepass
-→ Succès : mot de passe changé
-
-MODE #test -k
-→ Succès : mot de passe supprimé
-
-MODE #test +o
-→ Erreur 461 (pas de nickname fourni)
-
-MODE #test +o alice
-→ Succès : alice devient opérateur
-
-MODE #test +o inexistant
-→ Erreur 441 (user pas dans le channel)
-
-MODE #test -o alice
-→ Succès : alice n'est plus opérateur
-
-MODE #test +o alice
-MODE #test +o alice
-→ Succès les 2 fois (donner op à quelqu'un qui l'a déjà)
-
-MODE #test +l
-→ Erreur 461 (pas de limite fournie)
-
-MODE #test +l 5
-→ Succès : limite à 5 users
-
-MODE #test +l 0
-→ Erreur 461 (limite doit être > 0)
-
-MODE #test +l -1
-→ Erreur 461 (limite doit être un nombre positif)
-
-MODE #test +l abc
-→ Erreur 461 (limite invalide, pas un nombre)
-
-MODE #test +l 10
-→ Succès : limite changée à 10
-
-MODE #test -l
-→ Succès : limite supprimée
-
-MODE #test -l 4
-→ Succès : -l supprime la limite (param ignoré ou utilisé selon ton implémentation)
-
-MODE #test +x
-→ Erreur 472 (mode inconnu)
-
-MODE #test +
-→ Erreur 472 (format invalide)
-
-MODE #test abc
-→ Erreur 472 (doit commencer par + ou -)
-
-MODE #test +it
-→ Erreur 472 (format doit être 2 caractères exactement : +X)
-
-// Créer un channel, devenir op automatiquement
-JOIN #nouveau
-MODE #nouveau +i
-→ Succès
-
-// Tester avec mot de passe ET limite
-MODE #test +k secret123
-MODE #test +l 3
-→ Les deux devraient réussir
-
-// Donner op puis retirer
-MODE #test +o bob
-MODE #test -o bob
-→ Les deux devraient réussir
-
-// Channel avec tous les modes actifs
-MODE #test +i
-MODE #test +t
-MODE #test +k password
-MODE #test +l 10
-→ Tous devraient réussir
-
-// Avoir 2+ clients dans le même channel
-// Client1 (opérateur) :
-MODE #test +i
-
-// Vérifier que TOUS les clients du channel reçoivent :
-:Client1!user@localhost MODE #test +i
-
-// Test 1 : QUIT simple
-QUIT
-→ Broadcast : :nick!user@localhost QUIT :Client Quit
-→ Confirmation : ERROR :Closing Link: localhost (Quit: Client Quit)
-
-// Test 2 : QUIT avec message
-QUIT :Au revoir tout le monde !
-→ Broadcast : :nick!user@localhost QUIT :Au revoir tout le monde !
-→ Confirmation : ERROR :Closing Link: localhost (Quit: Au revoir tout le monde !)
-
-// Test 3 : QUIT avec message vide
-QUIT :
-→ Broadcast : :nick!user@localhost QUIT :Client Quit
-→ Confirmation : ERROR :Closing Link: localhost (Quit: Client Quit)
-
-// Test 4 : Vérifier que les autres users du channel voient le QUIT
-// (depuis un autre client)
-→ Ils reçoivent : :nick!user@localhost QUIT :message
-
-// Test 5 : QUIT depuis HexChat
-/quit Au revoir
-→ HexChat ferme la connexion proprement
-
-PART
-→ 461
-
-PART test
-→ 403 (manque #)
-
-PART #inexistant
-→ 403
-
-PART #test (sans y être)
-→ 442
-
-PART #test
-→ broadcast + fermeture onglet HexChat
-
-PART #test :Au revoir !
-→ broadcast avec raison
-
-PART #test,#general
-→ quitte les deux channels
-
-KICK
-→ 461
-
-KICK test nick
-→ 403 (manque #)
-
-KICK #inexistant nick
-→ 403
-
-KICK #test nick (sans être dans le channel)
-→ 442
-
-KICK #test nick (sans être opérateur)
-→ 482
-
-KICK #test inexistant
-→ 441
-
-KICK #test bob
-→ broadcast + bob ferme l'onglet HexChat
-
-KICK #test bob :Tu es banni !
-→ broadcast avec raison
-
-NAMES #test
-
-NAMES
-
-NAMES test
-
-NAMES #doesnotexist
-
+## Description
+
+**ft_irc** is a fully functional Internet Relay Chat (IRC) server implementation written in C++98. The project aims to provide a deep understanding of network programming, socket handling, and the IRC protocol.
+
+The server supports multiple simultaneous client connections using `poll()` for I/O multiplexing, and implements core IRC functionalities including channel management, private messaging, user authentication, and various channel modes. The implementation follows the IRC RFC specifications to ensure compatibility with standard IRC clients.
+
+### Key Features
+- Multi-client support with non-blocking I/O
+- User authentication with password protection
+- Channel creation and management
+- Channel modes: invite-only (+i), topic protection (+t), password (+k), user limit (+l), operator privileges (+o)
+- Private messaging between users
+- Channel operator commands (KICK, INVITE, TOPIC, MODE)
+- Signal handling for graceful shutdown
+- Bonus: Simple ping-responding bot
+
+## Instructions
+
+### Compilation
+
+To compile the IRC server:
+```bash
+make
+```
+
+This will generate two executables:
+- ircserv: The IRC server
+- bot: A simple bot that responds to PING messages
+
+To clean object files:
+```bash
+make clean
+```
+
+To remove all compiled files:
+```bash
+make fclean
+```
+
+To recompile everything:
+```bash
+make re
+```
+
+### Execution
+
+**Starting the server:**
+```bash
+./ircserv <port> <password>
+```
+- `<port>`: The port number on which the server will listen (must be between 1024 and 65535)
+- `<password>`: The connection password required for clients to connect
+
+Example:
+```bash
+./ircserv 6667 mypassword
+```
+
+**Starting the bot:**
+```bash
+./bot <server_ip> <port> <password>
+```
+
+Example:
+```bash
+./bot 127.0.0.1 6667 mypassword
+```
+
+**Connecting with an IRC client:**
+
+You can connect to the server using any standard IRC client (e.g., irssi, WeeChat, HexChat, or nc for testing):
+
+```bash
+nc localhost 6667
+```
+
+Then authenticate:
+```
+PASS mypassword
+NICK mynickname
+USER myusername 0 * :My Real Name
+```
+
+**Stopping the server:**
+
+Press `Ctrl+C` to gracefully shut down the server.
+
+### Supported Commands
+
+- `PASS <password>` - Authenticate with the server
+- `NICK <nickname>` - Set or change your nickname
+- `USER <username> 0 * :<realname>` - Register your user information
+- `JOIN <#channel> [password]` - Join or create a channel
+- `PART <#channel> [message]` - Leave a channel
+- `PRIVMSG <target> <message>` - Send a private message to a user or channel
+- `KICK <#channel> <user> [reason]` - Kick a user from a channel (operators only)
+- `INVITE <nickname> <#channel>` - Invite a user to a channel (operators only)
+- `TOPIC <#channel> [topic]` - View or set the channel topic
+- `MODE <#channel> <mode> [parameters]` - Change channel modes (operators only)
+- `NAMES <#channel>` - List all users in a channel
+- `QUIT [message]` - Disconnect from the server
+- `PING <server>` - Ping the server
+
+### Channel Modes
+
+- `+i`/`-i` : Set/remove invite-only channel
+- `+t`/`-t`: Set/remove restrictions on TOPIC command
+- `+k <password>`/ `-k <password>` : Set/remove channel password
+- `+o <nickname>`/`-o <nickname>` : Give/take channel operator privileges
+- `+l <limit>`/`-l <limit>` : Set/remove user limit to channel
+
+## Resources
+
+### Documentation & Specifications
+- [IRC Protocol - Wikipedia](https://en.wikipedia.org/wiki/IRC)
+- [List of IRC Commands - Wikipedia](https://en.wikipedia.org/wiki/List_of_IRC_commands)
+- [RFC 1459 - Internet Relay Chat Protocol](https://datatracker.ietf.org/doc/html/rfc1459)
+- [RFC 2812 - IRC Client Protocol](https://datatracker.ietf.org/doc/html/rfc2812)
+
+### AI Usage
+
+AI assistance (ChatGPT/Claude) was used for the following tasks:
+- **Error message formatting**: Generating RFC-compliant error response syntax and numeric reply codes
+- **Code review**: Identifying potential memory leaks and suggesting improvements for error handling
+- **Understanding**: Assistance with understanding socket programming edge cases and signal handling
+
+All core logic, architecture decisions, and implementations were designed and written by the project authors.
+
+---
+
+**Project Structure:**
+```
+.
+├── includes/           # Header files
+│   ├── Chanel.hpp
+│   ├── Client.hpp
+│   ├── ClientConnexion.hpp
+│   ├── IRC.h
+│   └── Server.hpp
+├── srcs/              # Source files
+│   ├── bot/          # Bot implementation
+│   ├── chanel/       # Channel management
+│   ├── client/       # Client management
+│   ├── commands/     # IRC command implementations
+│   ├── server/       # Server core functionality
+│   └── main.cpp
+├── Makefile
+└── README.md
+```

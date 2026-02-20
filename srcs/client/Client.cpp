@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/20 13:59:03 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/20 16:12:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,4 +205,46 @@ void Client::autoconfigure2()
 	this->configured = 1;
 	this->authenticated = 1;
 	this->sendconnexionconfimation();
+}
+
+
+void Client::setCommandLineCtrlD(std::string command)
+{
+	this->commandLineCtrlD = command;
+}
+
+
+std::string Client::getCommandLineCtrlD(void) const
+{
+	return this->commandLineCtrlD;
+}
+
+
+bool Client::isBufferToReceiveEmpty(void) const
+{
+	if (this->bufferToReceive.length() > 0)
+	{
+		return false;
+	}
+	return true;
+}
+
+std::string Client::getBufferToReceive(void) const
+{
+	return this->bufferToReceive;
+}
+
+void Client::clearBufferToReceive(void)
+{
+	this->bufferToReceive = "";
+}
+
+void Client::setBufferToReceive(std::string buffer)
+{
+	this->bufferToReceive = buffer;
+}
+
+void Client::sendToClientMessage(std::string message)
+{
+	this->setBufferToReceive(message);
 }

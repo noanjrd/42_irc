@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:04:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/19 15:33:01 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/20 14:12:54 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,5 @@ int main(int argc, char** argv)
 	Server server(serverFd, port, password);
 
 	initpoll(server);
-	// close()
 	return 0;
 }

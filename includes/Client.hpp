@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/20 13:33:47 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/20 16:12:40 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ private:
 	std::string nickname;
 	std::string username;
 	std::string realname;
+	std::string commandLineCtrlD;
+	std::string bufferToReceive;
 	Server &server;
 	int fd;
 	bool configured;
@@ -37,7 +39,13 @@ public:
 	Server& getServer() const;
 	std::string& getUsername();
 	std::string& getNickname();
+	void setCommandLineCtrlD(std::string);
+	std::string getCommandLineCtrlD(void) const;
 	int getFd();
+	bool isBufferToReceiveEmpty(void) const;
+	std::string getBufferToReceive(void) const;
+	void clearBufferToReceive(void);
+	void setBufferToReceive(std::string);
 
 	bool operator==(Client& cl) const;
 	bool operator!=(Client& cl) const;
@@ -47,4 +55,5 @@ public:
 	void sendconnexionconfimation() const;
 	void autoconfigure();
 	void autoconfigure2();
+	void sendToClientMessage(std::string);
 };
