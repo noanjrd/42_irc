@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/18 15:42:01 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 12:23:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Chanel::Chanel(std::string name, Client &client) : name(name), userlimit(0), inv
 	
 	this->clients.push_back(std::pair<Client*,int>(&client , OPERATORS));
 	std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@host JOIN #" + this->name +  "\r\n";
-	send(client.getFd(), confirmation.c_str(),  confirmation.length(),0);
+	client.sendToClientMessage(confirmation);
 }
 
 Chanel::~Chanel() {}
@@ -45,7 +45,7 @@ void Chanel::JoinChanel(Client &client)
 		std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@host JOIN #" + this->name + "\r\n";
 		for (size_t i = 0; i < this->clients.size(); i++)
 		{
-			send(this->clients[i].first->getFd() , confirmation.c_str(),  confirmation.length(),0);
+			client.sendToClientMessage(confirmation);
 		}
 	}
 }
@@ -107,11 +107,11 @@ void Chanel::sendMessageToAll(Client& client,bool includeClient, std::string& me
 	{
 		if (includeClient == false && *(clients[i].first) != client)
 		{
-			send(clients[i].first->getFd(), message.c_str(), message.length(),0);
+			clients[i].first->sendToClientMessage(message);
 		}
 		if (includeClient == true)
 		{
-			send(clients[i].first->getFd(), message.c_str(), message.length(),0);
+			clients[i].first->sendToClientMessage(message);
 		}
 	}
 	return ;
@@ -231,5 +231,5 @@ void Chanel::giveOperator()
 	std::string message = ":server MODE #" + name + " +o" + clients[0].first->getNickname() + "\r\n";
 	
 	for (size_t i = 0; i < clients.size(); i++)
-		send(clients[i].first->getFd(), message.c_str(), message.size(), 0);
+		clients[i].first->sendToClientMessage(message);
 }
