@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/20 16:12:40 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 12:12:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ public:
 
 	void authentication(std::vector<std::string>& command);
 	void configure(std::vector<std::string>& commands);
-	void sendconnexionconfimation() const;
+	void sendconnexionconfimation();
 	void autoconfigure();
 	void autoconfigure2();
 	void sendToClientMessage(std::string);

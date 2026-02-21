@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/20 16:12:44 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 12:16:37 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void Client::authentication(std::vector<std::string>& commands)
 	int countWords = commands.size();
 	if (countWords != 2)
 	{
-		std::string error = ":server 461 " + this->getNickname() + " "+ commands[0] + " :Not enough parameters\r\n";
-		send(this->getFd(), error.c_str(), error.size(), 0);
+		std::string errorMessage = ":server 461 " + this->getNickname() + " "+ commands[0] + " :Not enough parameters\r\n";
+		this->sendToClientMessage(errorMessage);
 		return ;
 	}
 	std::string command = commands[0];
@@ -76,8 +76,8 @@ void Client::configure(std::vector<std::string>& commands)
 	int countWords =commands.size();
 	if (countWords < 2)
 	{
-		std::string error = ":server 461 " + this->getNickname() + " "+ commands[0] + " :Not enough parameters\r\n";
-		send(this->getFd(), error.c_str(), error.size(), 0);
+		std::string errorMessage = ":server 461 " + this->getNickname() + " "+ commands[0] + " :Not enough parameters\r\n";
+		this->sendToClientMessage(errorMessage);
 		return ;
 	}
 	std::string command = commands[0];
@@ -91,8 +91,8 @@ void Client::configure(std::vector<std::string>& commands)
 		}
 		else
 		{
-			std::string messageError = ":localhost 433 * "+ nickname+ ":Nickname is already in use\r\n";
-			send(this->fd, messageError.c_str(), messageError.size(),0);
+			std::string errorMessage = ":localhost 433 * "+ nickname+ ":Nickname is already in use\r\n";
+			this->sendToClientMessage(errorMessage);
 		}
 	}
 	else if (command == "USER" && countWords >= 5)
@@ -136,27 +136,23 @@ void Client::configure(std::vector<std::string>& commands)
 	return ;
 }
 
-void Client::sendconnexionconfimation() const
+void Client::sendconnexionconfimation()
 {
 	std::string mess1 = ":localhost 001 " + this->nickname + " :Welcome to the Internet Relay Network " + this->nickname + "!" + this->username + "@localhost\r\n";
-	const char *buf1 = mess1.c_str();
-	send(this->fd, buf1, strlen(buf1),0);
+	// send(this->fd, buf1, strlen(buf1),0);
+	this->sendToClientMessage(mess1);
 
 	std::string mess2 = ":localhost 002 " + this->nickname + " :Your host is localhost, running version 1.0\r\n";
-	const char *buf2 = mess2.c_str();
-	send(this->fd, buf2, strlen(buf2),0);
+	this->sendToClientMessage(mess2);
 
 	std::string mess3 = ":localhost 003 " + this->nickname + " :This server was created 2025-03-04\r\n";
-	const char *buf3= mess3.c_str();
-	send(this->fd, buf3, strlen(buf3),0);
+	this->sendToClientMessage(mess3);
 
 	std::string mess4 = ":localhost 004 " + this->nickname + " localhost 1.0 iow ikl\r\n";
-	const char *buf4= mess4.c_str();
-	send(this->fd, buf4, strlen(buf4),0);
+	this->sendToClientMessage(mess4);
 
 	std::string mess5 = ":localhost 005 " + this->nickname + " CHANTYPES=# PREFIX=(o)@ :are supported by this server\r\n";
-	const char *buf5= mess5.c_str();
-	send(this->fd, buf5, strlen(buf5),0);
+	this->sendToClientMessage(mess5);
 }
 
 int Client::getFd()

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 15:15:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/18 15:42:38 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 12:27:30 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void KICK(Client& client, std::vector<std::string>& commands)
 	int countWords = commands.size();
 	if (countWords < 3)
 	{
-		std::string error = ":server 461 " + client.getNickname() + " KICK :Not enough parameters\r\n";
-		send(client.getFd(), error.c_str(), error.size(), 0);
+		std::string errorMessage = ":server 461 " + client.getNickname() + " KICK :Not enough parameters\r\n";
+		client.sendToClientMessage(errorMessage);
 		return ;
 	}
 
 	std::string channelName = commands[1];
 	if (channelName[0] != '#')
 	{
-		std::string error = ":server 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
-		send(client.getFd(), error.c_str(), error.size(), 0);
+		std::string errorMessage = ":server 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
+		client.sendToClientMessage(errorMessage);
 		return ;
 	}
 	channelName = channelName.substr(1);
@@ -36,8 +36,8 @@ void KICK(Client& client, std::vector<std::string>& commands)
 	std::string nickname = commands[2];
 	if (nickname.empty())
 	{
-		std::string error = ":server 461 " + client.getNickname() + " KICK :Not enough parameters\r\n";
-		send(client.getFd(), error.c_str(), error.size(), 0);
+		std::string errorMessage = ":server 461 " + client.getNickname() + " KICK :Not enough parameters\r\n";
+		client.sendToClientMessage(errorMessage);
 		return ;
 	}
 	
@@ -60,14 +60,14 @@ void KICK(Client& client, std::vector<std::string>& commands)
 		{
 			if (allChannels[i]->isUserInChanel(client) == false)
 			{
-				std::string error = ":server 442 " + client.getNickname() + " #" + channelName + " :You're not on that channel\r\n";
-				send(client.getFd(), error.c_str(), error.size(), 0);
+				std::string errorMessage = ":server 442 " + client.getNickname() + " #" + channelName + " :You're not on that channel\r\n";
+				client.sendToClientMessage(errorMessage);
 				return ;
 			}
 			if (allChannels[i]->isUserOperator(client) == false)
 			{
-				std::string error = ":server 482 " + client.getNickname() + " #" + channelName + " :You're not channel operator\r\n";
-				send(client.getFd(), error.c_str(), error.size(), 0);
+				std::string errorMessage = ":server 482 " + client.getNickname() + " #" + channelName + " :You're not channel operator\r\n";
+				client.sendToClientMessage(errorMessage);
 				return ;
 			}
 		
@@ -84,11 +84,11 @@ void KICK(Client& client, std::vector<std::string>& commands)
 					return ;
 				}
 			}	
-			std::string error = ":server 441 " + client.getNickname() + " " + nickname + " #" + channelName + " :They aren't on that channel\r\n";
-			send(client.getFd(), error.c_str(), error.size(), 0);
+			std::string errorMessage = ":server 441 " + client.getNickname() + " " + nickname + " #" + channelName + " :They aren't on that channel\r\n";
+			client.sendToClientMessage(errorMessage);
 			return ;
 		}
 	}
-	std::string error = ":server 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";
-	send(client.getFd(), error.c_str(), error.size(), 0);
+	std::string errorMessage = ":server 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";
+	client.sendToClientMessage(errorMessage);
 }
