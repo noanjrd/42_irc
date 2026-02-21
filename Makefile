@@ -7,7 +7,7 @@ SRCS = srcs/main.cpp\
 	srcs/utils.cpp\
 	srcs/client/Client.cpp\
 	srcs/client/ClientConnexion.cpp\
-	srcs/chanel/Chanel.cpp\
+	srcs/channel/Channel.cpp\
 	srcs/server/Server.cpp\
 	srcs/server/poll.cpp\
 	srcs/server/processmessages.cpp\

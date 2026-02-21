@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2026/02/17 15:03:49 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 13:57:48 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ Server::Server(int fd, int port, std::string pswd) : sevrer_fd(fd), port(port), 
 
 Server::~Server() 
 {
-	for (size_t i = 0; i < chanels.size(); i++)
-		delete chanels[i];
+	for (size_t i = 0; i < channels.size(); i++)
+		delete channels[i];
 	
 	for (size_t i = 0; i < client_connexions.size(); i++)
 		delete client_connexions[i];
@@ -45,14 +45,14 @@ std::vector<std::string>& Server::getUsernames()
 }
 
 
-std::vector<std::string>& Server::getUChanelsName()
+std::vector<std::string>& Server::getUChannelsName()
 {
-	return this->chanelsname;
+	return this->channelsName;
 }
 
-std::vector<Chanel*>& Server::getChanels()
+std::vector<Channel*>& Server::getChannels()
 {
-	return this->chanels;
+	return this->channels;
 }
 
 std::vector<ClientConnexion*>& Server::getClient_connexions()
@@ -72,9 +72,9 @@ bool Server::isUserInServer(Client& client)
 
 void Server::removeClient(Client& client)
 {
-	for (size_t i = 0; i < chanels.size(); i++)
+	for (size_t i = 0; i < channels.size(); i++)
     {
-        chanels[i]->removeClient(client);
+        channels[i]->removeClient(client);
     }
 	
     for (size_t i = 0; i < client_connexions.size(); i++)
@@ -100,23 +100,23 @@ bool Server::isNicknameInServer(const std::string& nickname)
     return false;
 }
 
-bool Server::isChanelExist(const std::string& chanel)
+bool Server::isChannelExist(const std::string& channel)
 {
-	for (size_t i = 0; i < this->chanels.size(); (i++))
+	for (size_t i = 0; i < this->channels.size(); (i++))
 	{
-		if(this->chanels[i]->getName() == chanel)
+		if(this->channels[i]->getName() == channel)
 			return true;
 	}
 	return false;
 }
 
-void Server::removeChannel(Chanel* chanelName)
+void Server::removeChannel(Channel* channelName)
 {
-	for (size_t i = 0; i < chanels.size(); i++)
+	for (size_t i = 0; i < channels.size(); i++)
 	{
-		if (chanels[i] == chanelName)
+		if (channels[i] == channelName)
 		{
-			this->chanels.erase(this->chanels.begin() + i);
+			this->channels.erase(this->channels.begin() + i);
 			break ;
 		}
 	}

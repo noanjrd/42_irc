@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 16:41:16 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 12:26:51 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 13:48:35 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void NAMES(Client& client, std::vector<std::string>& commands)
     }
     channelName = channelName.substr(1);
 
-    Chanel* channel = strChanneltoChannelType(client.getServer(), channelName);
+    Channel* channel = strChanneltoChannelType(client.getServer(), channelName);
     if (channel == NULL)
     {
         std::string error = ":server 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";

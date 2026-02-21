@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 12:25:48 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 15:11:09 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,34 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 	if (countWords >= 3)
 		password = commands[2];
 
-	Chanel * chaneltemp = strChanneltoChannelType(client.getServer(), channelName);
-	if (chaneltemp == NULL)
+	Channel * channeltemp = strChanneltoChannelType(client.getServer(), channelName);
+	if (channeltemp == NULL)
 	{
-		Chanel* newchannel = new Chanel(channelName, client);
+		Channel* newchannel = new Channel(channelName, client);
 		if (!password.empty())
 		{
 			newchannel->sethasPassword(true);
 			newchannel->setPassword(password);
 		}
-		client.getServer().getChanels().push_back(newchannel);
-		client.getServer().getUChanelsName().push_back(channelName);
+		client.getServer().getChannels().push_back(newchannel);
+		client.getServer().getUChannelsName().push_back(channelName);
 		return ;
 	}
-	if ((chaneltemp->isInviteOnly() == true) && (chaneltemp->isInvited(client.getNickname()) == false))
+	if ((channeltemp->isInviteOnly() == true) && (channeltemp->isInvited(client.getNickname()) == false))
 	{
 		std::string errorMessage = ":server 473 " + client.getNickname() + " #" + channelName + " :Cannot join channel (+i)\r\n";
 		client.sendToClientMessage(errorMessage);
 		return;
 	}
-	if ((chaneltemp->isHasPassword() == true) && (chaneltemp->checkPassword(password) == false))
+	if ((channeltemp->isHasPassword() == true) && (channeltemp->checkPassword(password) == false))
 	{
 		std::string errorMessage = ":server 475 " + client.getNickname() + " #" + channelName + " :Cannot join channel (+k)\r\n";
 		client.sendToClientMessage(errorMessage);
 		return;
 	}
-	if (chaneltemp->ishasAUserLimit() == true)
+	if (channeltemp->ishasAUserLimit() == true)
 	{
-		if (chaneltemp->getClients().size() >= chaneltemp->getUserLimit())
+		if (channeltemp->getClients().size() >= channeltemp->getUserLimit())
 		{
 			std::string errorMessage = ":server 471 " + client.getNickname() + " #" + channelName + " :Cannot join channel (+l)\r\n";
 			client.sendToClientMessage(errorMessage);
@@ -73,9 +73,9 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 	}
 	try
 	{
-		chaneltemp->JoinChanel(client);
-		if (chaneltemp->isInvited(client.getNickname()))
-			chaneltemp->removeInvite(client.getNickname());
+		channeltemp->JoinChannel(client);
+		if (channeltemp->isInvited(client.getNickname()))
+			channeltemp->removeInvite(client.getNickname());
 	}
 	catch (std::exception &e)
 	{

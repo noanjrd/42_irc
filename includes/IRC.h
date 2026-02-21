@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:27:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/20 10:14:58 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:07:01 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 #include "Client.hpp"
 #include "Server.hpp"
-#include "Chanel.hpp"
+#include "Channel.hpp"
 #include "ClientConnexion.hpp"
 
 // SIGNALS
@@ -49,8 +49,8 @@ void initpoll(Server &server);
 
 // UTILS
 
-bool isstrdigit(const std::string& str);
-Chanel* strChanneltoChannelType(Server& server, std::string& chanelname);
+bool 		isstrdigit(const std::string& str);
+Channel* 	strChanneltoChannelType(Server& server, std::string& channelname);
 
 // COMMANDS
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 12:16:37 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 14:13:52 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ void Client::configure(std::vector<std::string>& commands)
 void Client::sendconnexionconfimation()
 {
 	std::string mess1 = ":localhost 001 " + this->nickname + " :Welcome to the Internet Relay Network " + this->nickname + "!" + this->username + "@localhost\r\n";
-	// send(this->fd, buf1, strlen(buf1),0);
 	this->sendToClientMessage(mess1);
 
 	std::string mess2 = ":localhost 002 " + this->nickname + " :Your host is localhost, running version 1.0\r\n";

@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:30:27 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/21 12:37:48 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 15:10:01 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,177 +14,49 @@
 
 // MODE #channel -mode param
 
-void MODE(Client& client, std::vector<std::string>& commands)
+void modeO(Client& client, Channel* channel, char sign, std::string& param, const std::string& channelName)
 {
-	int countWords = commands.size();
-	if (countWords < 3)
+	if (param.empty())
 	{
 		std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 		client.sendToClientMessage(error);
-		return ;
-	}
-
-	std::string channelName = commands[1];
-	if (channelName.empty() || channelName[0] != '#')
-	{
-		std::string error = ":server 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
-		client.sendToClientMessage(error);
-		return ;
-	}
-	channelName = channelName.substr(1);
-	
-	std::string modeT = commands[2];
-	if (modeT.size() != 2)
-	{
-		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, modeT[0]) + " :is unknown mode char to me\r\n";
-		client.sendToClientMessage(error);
-		return;
-	}
-	if (modeT[0] != '+' && modeT[0] != '-')
-	{
-		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, modeT[0]) + " :is unknown mode char to me\r\n";
-		client.sendToClientMessage(error);
-		return ;
-	}
-	char sign = modeT[0];
-	char mode = modeT[1];
-	
-	if (mode != 'i' && mode != 't' && mode != 'k' && mode != 'l' && mode != 'o')
-	{
-		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, mode) + " :is unknown mode char to me\r\n";
-		client.sendToClientMessage(error);
 		return;
 	}
 
-	std::string param;
-	if (mode == 'i' || mode == 't')
+	if (channel->isUserInChannelByNick(param) == false)
 	{
-		if (countWords > 3)
-		{
-			std::string error = ":server 461 " + client.getNickname() + " MODE :Too many parameters\r\n";
-			client.sendToClientMessage(error);
-			return;
-		}
-	}
-	else if (mode == 'k' || mode == 'o' || mode == 'l')
-	{	
-		
-		if (sign == '+')
-		{
-			if (countWords < 4)
-			{
-				std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
-				client.sendToClientMessage(error);
-				return;
-			}
-		}
-		if (countWords >= 4)
-		{
-			if (!param.empty() && param[0] == ':')
-				param = param.substr(1);
-		}
-	}
-
-	Chanel* channel = strChanneltoChannelType(client.getServer(), channelName);
-	if (!channel)
-	{
-		std::string error = ":server 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";
+		std::string error = ":server 441 " + client.getNickname() + " " + param + " #" + channelName + " :They aren't on that channel\r\n";
 		client.sendToClientMessage(error);
 		return ;
 	}
-	if (channel->isUserInChanel(client) == false)
-	{
-		std::string error = ":server 442 " + client.getNickname() + " #" + channelName + " :You're not on that channel\r\n";
-		client.sendToClientMessage(error);
-		return ;
-	}
-	if (channel->isUserOperator(client) == false)
-	{
-		std::string error = ":server 482 " + client.getNickname() + " #" + channelName + " :You're not channel operator\r\n";
-		client.sendToClientMessage(error);
-    	return;
-	}
 
-	if (mode == 'i')
+	std::vector<std::pair<Client*, int> >& users = channel->getClients();
+	if (sign == '+')
 	{
-		if (sign == '+')
-			channel->setInviteOnly(true);
-		else
-			channel->setInviteOnly(false);
-	}
-
-	else if (mode == 't')
-	{
-		if (sign == '+')
-			channel->setTopicProtected(true);
-		else
-			channel->setTopicProtected(false);
-	}
-
-	else if (mode == 'k')
-	{
-		if (sign == '+')
+		for (size_t i = 0; i < users.size(); i++)
 		{
-			if (param.empty())
+			if (users[i].first->getNickname() == param)
 			{
-				std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
-				client.sendToClientMessage(error);
-				return;
-			}
-			channel->sethasPassword(true);
-			channel->setPassword(param);
-		}
-		else
-		{
-			channel->sethasPassword(false);
-			channel->setPassword("");
-			param = "";
-		}
-	}
-	
-	else if (mode == 'o')
-	{
-		if (param.empty())
-		{
-			std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
-			client.sendToClientMessage(error);
-			return;
-		}
-
-		if (channel->isUserInChannelByNick(param) == false)
-		{
-			std::string error = ":server 441 " + client.getNickname() + " " + param + " #" + channelName + " :They aren't on that channel\r\n";
-			client.sendToClientMessage(error);
-			return ;
-		}
-
-		std::vector<std::pair<Client*, int> >& users = channel->getClients();
-		if (sign == '+')
-		{
-			for (size_t i = 0; i < users.size(); i++)
-			{
-				if (users[i].first->getNickname() == param)
-				{
-					users[i].second = OPERATORS;
-					break ;
-				}
-			}
-		}
-		else
-		{
-			for (size_t i = 0; i < users.size(); i++)
-			{
-				if (users[i].first->getNickname() == param)
-				{
-					users[i].second = DEFAULT;
-					break ;
-				}
+				users[i].second = OPERATORS;
+				break ;
 			}
 		}
 	}
-	
-	else if (mode == 'l')
+	else
 	{
+		for (size_t i = 0; i < users.size(); i++)
+		{
+			if (users[i].first->getNickname() == param)
+			{
+				users[i].second = DEFAULT;
+				break ;
+			}
+		}
+	}
+}
+
+void modeL(Client& client, Channel* channel, char sign, std::string& param)
+{
 		if (sign == '+')
 		{
 			if (param.empty())
@@ -218,9 +90,138 @@ void MODE(Client& client, std::vector<std::string>& commands)
 			channel->sethasAUserLimit(false);
 			param = "";
 		}
-			
+}
+
+bool parseMode(Client& client, std::vector<std::string>& commands, std::string& channelName, char& sign, char& mode, std::string& param)
+{
+	int countWords = commands.size();
+	if (countWords < 3)
+	{
+		std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
+		client.sendToClientMessage(error);
+		return false ;
 	}
+
+	channelName = commands[1];
+	if (channelName.empty() || channelName[0] != '#')
+	{
+		std::string error = ":server 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
+		client.sendToClientMessage(error);
+		return false;
+	}
+	channelName = channelName.substr(1);
 	
+	std::string modeT = commands[2];
+	if (modeT.size() != 2 || (modeT[0] != '+' && modeT[0] != '-'))
+	{
+		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, modeT[0]) + " :is unknown mode char to me\r\n";
+		client.sendToClientMessage(error);
+		return false;
+	}
+	sign = modeT[0];
+	mode = modeT[1];
+	
+	if (mode != 'i' && mode != 't' && mode != 'k' && mode != 'l' && mode != 'o')
+	{
+		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, mode) + " :is unknown mode char to me\r\n";
+		client.sendToClientMessage(error);
+		return false;
+	}
+
+	if (mode == 'i' || mode == 't')
+	{
+		if (countWords > 3)
+		{
+			std::string error = ":server 461 " + client.getNickname() + " MODE :Too many parameters\r\n";
+			client.sendToClientMessage(error);
+			return false;
+		}
+	}
+	else if (mode == 'k' || mode == 'o' || mode == 'l')
+	{	
+		if (sign == '+' && countWords < 4)
+		{
+			std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
+			client.sendToClientMessage(error);
+			return false;
+		}
+		if (countWords >= 4)
+		{
+			param = commands[3];
+			if (!param.empty() && param[0] == ':')
+				param = param.substr(1);
+		}
+		return true;
+	}
+	return true;
+}
+
+void MODE(Client& client, std::vector<std::string>& commands)
+{
+	std::string channelName, param;
+    char sign, mode;
+	
+	if (parseMode(client, commands, channelName, sign, mode, param) == false)
+        return;
+
+	Channel* channel = strChanneltoChannelType(client.getServer(), channelName);
+	if (!channel)
+	{
+		std::string error = ":server 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";
+		client.sendToClientMessage(error);
+		return ;
+	}
+	if (channel->isUserInChannel(client) == false)
+	{
+		std::string error = ":server 442 " + client.getNickname() + " #" + channelName + " :You're not on that channel\r\n";
+		client.sendToClientMessage(error);
+		return ;
+	}
+	if (channel->isUserOperator(client) == false)
+	{
+		std::string error = ":server 482 " + client.getNickname() + " #" + channelName + " :You're not channel operator\r\n";
+		client.sendToClientMessage(error);
+    	return;
+	}
+
+	if (mode == 'i')
+	{
+		if (sign == '+')
+			channel->setInviteOnly(true);
+		else
+			channel->setInviteOnly(false);
+	}
+	else if (mode == 't')
+	{
+		if (sign == '+')
+			channel->setTopicProtected(true);
+		else
+			channel->setTopicProtected(false);
+	}
+	else if (mode == 'k')
+	{
+		if (sign == '+')
+		{
+			if (param.empty())
+			{
+				std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
+				client.sendToClientMessage(error);
+				return;
+			}
+			channel->sethasPassword(true);
+			channel->setPassword(param);
+		}
+		else
+		{
+			channel->sethasPassword(false);
+			channel->setPassword("");
+			param = "";
+		}
+	}
+	else if (mode == 'o')
+		modeO(client, channel, sign, param, channelName);
+	else if (mode == 'l')
+		modeL(client, channel, sign, param);
 	std::string reply = ":" + client.getNickname() + "!" + client.getUsername() + "@localhost MODE #" + channelName + " " + sign + mode;
 	if (!param.empty())
 		reply += " " + param;
@@ -228,6 +229,5 @@ void MODE(Client& client, std::vector<std::string>& commands)
 
 	std::vector<std::pair<Client*, int> >& users = channel->getClients();
 	for (size_t i = 0; i < users.size(); i++)
-		 users[i].first->sendToClientMessage(reply);
-		
+		 users[i].first->sendToClientMessage(reply);	
 }

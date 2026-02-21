@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   KICK.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 15:15:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 12:27:30 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 14:32:54 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,33 @@
 
 // KICK <#channel> <user> [reason]
 
-void KICK(Client& client, std::vector<std::string>& commands)
+bool parseKick(Client &client, std::vector<std::string>& commands, std::string& channelName, std::string& nickname, std::string& reason)
 {
 	int countWords = commands.size();
 	if (countWords < 3)
 	{
 		std::string errorMessage = ":server 461 " + client.getNickname() + " KICK :Not enough parameters\r\n";
 		client.sendToClientMessage(errorMessage);
-		return ;
+		return false;
 	}
 
-	std::string channelName = commands[1];
+	channelName = commands[1];
 	if (channelName[0] != '#')
 	{
 		std::string errorMessage = ":server 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
 		client.sendToClientMessage(errorMessage);
-		return ;
+		return false ;
 	}
 	channelName = channelName.substr(1);
 	
-	std::string nickname = commands[2];
+	nickname = commands[2];
 	if (nickname.empty())
 	{
 		std::string errorMessage = ":server 461 " + client.getNickname() + " KICK :Not enough parameters\r\n";
 		client.sendToClientMessage(errorMessage);
-		return ;
+		return false ;
 	}
-	
-	std::string reason;
+
 	if (countWords > 3)
 	{
 		for (int i = 3; i < countWords; i++)
@@ -52,13 +51,22 @@ void KICK(Client& client, std::vector<std::string>& commands)
 		reason = "No reason";
 	reason.erase(std::remove(reason.begin(), reason.end(), '\n'), reason.end());
 	reason.erase(std::remove(reason.begin(), reason.end(), '\r'), reason.end());
+	return true;
+}
 
-	std::vector<Chanel*>& allChannels = client.getServer().getChanels();
+void KICK(Client& client, std::vector<std::string>& commands)
+{
+	std::string channelName, nickname, reason;
+	
+	if (parseKick(client, commands, channelName, nickname, reason) == false)
+        return;
+		
+	std::vector<Channel*>& allChannels = client.getServer().getChannels();
 	for (size_t i = 0; i < allChannels.size(); i++)
 	{
 		if (allChannels[i]->getName() == channelName)
 		{
-			if (allChannels[i]->isUserInChanel(client) == false)
+			if (allChannels[i]->isUserInChannel(client) == false)
 			{
 				std::string errorMessage = ":server 442 " + client.getNickname() + " #" + channelName + " :You're not on that channel\r\n";
 				client.sendToClientMessage(errorMessage);

@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:55:08 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 13:04:37 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 13:56:15 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void initpoll(Server &server)
 			
 			if (bytes <= 0) // verifie si le il y a une erreur ou que le client est deconnecte
 			{
-				// je dois supprimer le client des du sevreur et chanels et fermer son fd
+				// je dois supprimer le client des du sevreur et channels et fermer son fd
 				// close(watched_socket[i].fd);
 				server.removeClient(server.getClient_connexions()[i-1]->getClient());
 				break;

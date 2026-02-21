@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Chanel.cpp                                         :+:      :+:    :+:   */
+/*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 12:23:06 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 14:13:08 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/IRC.h"
 
-Chanel::Chanel(std::string name, Client &client) : name(name), userlimit(0), inviteOnly(false), topicProtected(false), hasPassword(false), hasAUserLimit(false)
+Channel::Channel(std::string name, Client &client) : name(name), userlimit(0), inviteOnly(false), topicProtected(false), hasPassword(false), hasAUserLimit(false)
 {
 	
 	this->clients.push_back(std::pair<Client*,int>(&client , OPERATORS));
@@ -20,23 +20,23 @@ Chanel::Chanel(std::string name, Client &client) : name(name), userlimit(0), inv
 	client.sendToClientMessage(confirmation);
 }
 
-Chanel::~Chanel() {}
+Channel::~Channel() {}
 
-std::string Chanel::getName()
+std::string Channel::getName()
 {
 	return this->name;
 }
 
-std::vector<std::pair<Client*, int> >& Chanel::getClients()
+std::vector<std::pair<Client*, int> >& Channel::getClients()
 {
 	return this->clients;
 }
 
-void Chanel::JoinChanel(Client &client)
+void Channel::JoinChannel(Client &client)
 {
-	if (this->isUserInChanel(client) == true)
+	if (this->isUserInChannel(client) == true)
 	{
-		throw std::runtime_error("User already in chanel");
+		throw std::runtime_error("User already in channel");
 	}
 	else
 	{
@@ -50,7 +50,7 @@ void Chanel::JoinChanel(Client &client)
 	}
 }
 
-bool Chanel::isUserOperator(Client &client) const
+bool Channel::isUserOperator(Client &client) const
 {
 	std::string username = client.getUsername();
 	for (size_t i = 0; i < this->clients.size(); i++)
@@ -66,22 +66,22 @@ bool Chanel::isUserOperator(Client &client) const
 	return false;
 }
 
-bool Chanel::getTopicProtected() const
+bool Channel::getTopicProtected() const
 {
 	return this->topicProtected;
 }
 
-void Chanel::setTopic(std::string topicinput)
+void Channel::setTopic(std::string topicinput)
 {
 	this->topic = topicinput;
 }
 
-std::string Chanel::getTopic()
+std::string Channel::getTopic()
 {
 	return (this->topic);
 }
 
-bool Chanel::isUserInChanel(Client& client) const
+bool Channel::isUserInChannel(Client& client) const
 {
 	for (size_t i = 0; i < this->clients.size(); i++)
 	{
@@ -91,7 +91,7 @@ bool Chanel::isUserInChanel(Client& client) const
 	return false;
 }
 
-bool Chanel::isUserInChannelByNick(const std::string& nick) const
+bool Channel::isUserInChannelByNick(const std::string& nick) const
 {
     for (size_t i = 0; i < clients.size(); i++)
     {
@@ -101,7 +101,7 @@ bool Chanel::isUserInChannelByNick(const std::string& nick) const
     return false;
 }
 
-void Chanel::sendMessageToAll(Client& client,bool includeClient, std::string& message) const
+void Channel::sendMessageToAll(Client& client,bool includeClient, std::string& message) const
 {
 	for (size_t i = 0; i < this->clients.size(); i++)
 	{
@@ -117,7 +117,7 @@ void Chanel::sendMessageToAll(Client& client,bool includeClient, std::string& me
 	return ;
 }
 
-void Chanel::removeClient(Client& client)
+void Channel::removeClient(Client& client)
 {
 	for (size_t i = 0; i < this->clients.size(); i++)
 	{
@@ -129,17 +129,17 @@ void Chanel::removeClient(Client& client)
 	}
 }
 
-void Chanel::setInviteOnly(bool value)
+void Channel::setInviteOnly(bool value)
 {
     inviteOnly = value;
 }
 
-bool Chanel::isInviteOnly() const
+bool Channel::isInviteOnly() const
 {
     return inviteOnly;
 }
 
-bool Chanel::isInvited(const std::string& nickName)
+bool Channel::isInvited(const std::string& nickName)
 {
 	if (invited.find(nickName) != invited.end())
 		return (true);
@@ -147,42 +147,42 @@ bool Chanel::isInvited(const std::string& nickName)
 		return (false);
 }
 
-void Chanel::removeInvite(const std::string& nickName)
+void Channel::removeInvite(const std::string& nickName)
 {
 	invited.erase(nickName);
 }
 
-void Chanel::addInvite(const std::string& nickName)
+void Channel::addInvite(const std::string& nickName)
 {
     invited.insert(nickName);
 }
 
-void Chanel::setTopicProtected(bool value)
+void Channel::setTopicProtected(bool value)
 {
     topicProtected= value;
 }
 
-bool Chanel::isTopicProtected() const
+bool Channel::isTopicProtected() const
 {
     return topicProtected;
 }
 
-void Chanel::sethasPassword(bool value)
+void Channel::sethasPassword(bool value)
 {
 	hasPassword = value;
 }
     
-bool Chanel::isHasPassword() const
+bool Channel::isHasPassword() const
 {
 	return hasPassword;
 }
 
-void Chanel::setPassword(std::string param)
+void Channel::setPassword(std::string param)
 {
 	password = param;
 }
 
-bool Chanel::checkPassword(std::string mypassword)
+bool Channel::checkPassword(std::string mypassword)
 {
 	if (password == mypassword)
 		return (true);
@@ -190,27 +190,27 @@ bool Chanel::checkPassword(std::string mypassword)
 		return (false);
 }
 
-void Chanel::sethasAUserLimit(bool value)
+void Channel::sethasAUserLimit(bool value)
 {
 	hasAUserLimit = value;
 }
 
-bool Chanel::ishasAUserLimit() const
+bool Channel::ishasAUserLimit() const
 {
 	return hasAUserLimit;
 }
 
-void Chanel::setUserLimit(int limit)
+void Channel::setUserLimit(int limit)
 {
 	userlimit = limit;
 }
 
-size_t Chanel::getUserLimit() const
+size_t Channel::getUserLimit() const
 {
 	return (userlimit);
 }
 
-bool Chanel::channelHasOperator() const
+bool Channel::channelHasOperator() const
 {
 	for (size_t i = 0; i < clients.size(); i++)
 	{
@@ -220,7 +220,7 @@ bool Chanel::channelHasOperator() const
 	return (false);
 }
 
-void Chanel::giveOperator()
+void Channel::giveOperator()
 {
 	if (clients.empty())
 		return ;

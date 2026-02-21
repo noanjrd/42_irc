@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   INVITE.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 19:42:20 by naziha            #+#    #+#             */
-/*   Updated: 2026/02/21 12:19:31 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/21 15:11:24 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void INVITE(Client& client, std::vector<std::string>& commands)
     }
     channelName = channelName.substr(1);
 
-    Chanel* channel = strChanneltoChannelType(client.getServer(), channelName);
+    Channel* channel = strChanneltoChannelType(client.getServer(), channelName);
     if (!channel)
     {
         std::string errorMessage = ":server 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";
         client.sendToClientMessage(errorMessage);
         return ;
     }
-    if (!channel->isUserInChanel(client))
+    if (!channel->isUserInChannel(client))
     {
         std::string errorMessage = ":server 442 " + client.getNickname() + " #" + channelName + " :You're not on that channel\r\n";
         client.sendToClientMessage(errorMessage);

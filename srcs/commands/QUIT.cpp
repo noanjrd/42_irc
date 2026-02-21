@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 12:31:18 by naziha            #+#    #+#             */
-/*   Updated: 2026/02/21 12:50:22 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 13:56:11 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void QUIT(Client &client, std::vector<std::string> &commands)
     {
         std::string finalMessage = ":" + client.getNickname() + "!" + client.getUsername() + "@localhost" + " QUIT :" + quitMessage + "\r\n";
         
-        std::vector<Chanel*> toRemove;
-        std::vector<Chanel*>& allChannels = client.getServer().getChanels();
+        std::vector<Channel*> toRemove;
+        std::vector<Channel*>& allChannels = client.getServer().getChannels();
         
         for (size_t i = 0; i < allChannels.size(); i++)
         {
-            Chanel* channel = allChannels[i];
-            if (channel->isUserInChanel(client))
+            Channel* channel = allChannels[i];
+            if (channel->isUserInChannel(client))
             {
                 channel->sendMessageToAll(client, false, finalMessage);
                 channel->removeClient(client);

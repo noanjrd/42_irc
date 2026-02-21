@@ -132,14 +132,14 @@ All core logic, architecture decisions, and implementations were designed and wr
 ```
 .
 ├── includes/           # Header files
-│   ├── Chanel.hpp
+│   ├── Channel.hpp
 │   ├── Client.hpp
 │   ├── ClientConnexion.hpp
 │   ├── IRC.h
 │   └── Server.hpp
 ├── srcs/              # Source files
 │   ├── bot/          # Bot implementation
-│   ├── chanel/       # Channel management
+│   ├── channel/       # Channel management
 │   ├── client/       # Client management
 │   ├── commands/     # IRC command implementations
 │   ├── server/       # Server core functionality

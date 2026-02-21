@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 15:35:37 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 12:19:30 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 13:51:53 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void TOPIC(Client &client, std::vector<std::string>& commands)
 	}
 	channelName = channelName.substr(1);
 
-	Chanel* channel = strChanneltoChannelType(client.getServer(), channelName);
+	Channel* channel = strChanneltoChannelType(client.getServer(), channelName);
 	if (channel == NULL)
 	{
 		std::string error = ":server 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";
@@ -41,7 +41,7 @@ void TOPIC(Client &client, std::vector<std::string>& commands)
 		return ;
 	}
 
-	if (channel->isUserInChanel(client) == false)
+	if (channel->isUserInChannel(client) == false)
 	{
 		std::string error = ":server 442 " + client.getNickname() + " #" + channelName + " :You're not on that channel\r\n";
 		client.sendToClientMessage(error);

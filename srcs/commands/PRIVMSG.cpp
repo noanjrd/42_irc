@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 14:15:42 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 12:23:12 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/21 13:51:32 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 static void PRIVMSGToServer(Client &client, std::string& destination, std::string& message )
 {
 	destination = destination.substr(1);
-	Chanel *channel = strChanneltoChannelType(client.getServer(), destination);
+	Channel *channel = strChanneltoChannelType(client.getServer(), destination);
 	if (channel == NULL)
 	{
 		std::string error = ":server 403 " + client.getNickname() + " #" + destination + " :No such channel\r\n";
 		client.sendToClientMessage(error);
 		return ;
 	}
-	if (channel->isUserInChanel(client) == false)
+	if (channel->isUserInChannel(client) == false)
 	{
 		std::string error = ":server 404 " + client.getNickname() + " #" + destination + " :Cannot send to channel\r\n";
 		client.sendToClientMessage(error);
