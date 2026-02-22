@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 12:45:15 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/22 15:08:29 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 		}
 		client.getServer().getChannels().push_back(newchannel);
 		client.getServer().getUChannelsName().push_back(channelName);
+		std::vector <std::string> names;
+		names.push_back("NAMES");
+		names.push_back("#" + channelName);
+		NAMES(client, names);
 		return ;
 	}
 	if ((channeltemp->isInviteOnly() == true) && (channeltemp->isInvited(client.getNickname()) == false))
@@ -76,6 +80,19 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 		channeltemp->JoinChannel(client);
 		if (channeltemp->isInvited(client.getNickname()))
 			channeltemp->removeInvite(client.getNickname());
+
+		if (!channeltemp->getTopic().empty())
+		{
+			std::string topicMessage = ":serverIRC 332 " + client.getNickname() + " #" + channelName + " :" + channeltemp->getTopic() + "\r\n";
+			client.sendToClientMessage(topicMessage);
+		}
+		else
+		{
+			std::string noTopicMessage = ":serverIRC 331 " + client.getNickname() + " #" + channelName + " :No topic is set\r\n";
+			client.sendToClientMessage(noTopicMessage);
+		}
+		NAMES(client, commands);
+		
 	}
 	catch (std::exception &e)
 	{
