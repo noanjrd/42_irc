@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 12:51:03 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/22 15:08:33 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ Channel::Channel(std::string name, Client &client) : name(name), userlimit(0), i
 	this->clients.push_back(std::pair<Client*,int>(&client , OPERATORS));
 	std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@serverIRC JOIN #" + this->name +  "\r\n";
 	client.sendToClientMessage(confirmation);
+	
+	std::string noTopicMessage = ":serverIRC 331 " + client.getNickname() + " #" + this->name + " :No topic is set \r\n";
+	client.sendToClientMessage(noTopicMessage);
 }
 
 Channel::~Channel() {}
@@ -43,7 +46,8 @@ void Channel::JoinChannel(Client &client)
 		std::cout << "Client joined" << std::endl;
 		this->clients.push_back(std::pair<Client*, int>(&client, DEFAULT));
 		std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@serverIRC JOIN #" + this->name + "\r\n";
-		this->sendMessageToAll(client, true,confirmation);
+		this->sendMessageToAll(client, true, confirmation);
+
 	}
 }
 
