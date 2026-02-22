@@ -76,9 +76,6 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 		channeltemp->JoinChannel(client);
 		if (channeltemp->isInvited(client.getNickname()))
 			channeltemp->removeInvite(client.getNickname());
-
-		// std::string message = ":" + client.getNickname() + "!" + client.getUsername() + "@serverIRC JOIN #" + channelName + "\r\n";
-    	// channeltemp->sendMessageToAll(client, true, message);
 	}
 	catch (std::exception &e)
 	{
