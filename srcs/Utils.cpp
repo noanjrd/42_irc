@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:46:49 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 15:25:00 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/22 15:58:13 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,28 @@ bool isstrdigit(const std::string& str)
 	return true;
 }
 
-bool isUserInServer(Server& server, std::string& username)
+bool isUserInServer(Server& server, std::string& nickname)
 {
-	std::vector<std::string>::iterator it = find(server.getUsernames().begin(), server.getUsernames().end(), username);
-	if (it == server.getUsernames().end())
-		return false;
-	return true;
+	std::vector<ClientConnexion *>& clients = server.getClient_connexions();
+	for (std::vector<ClientConnexion *>::iterator it = clients.begin(); it != clients.end(); it++)
+	{
+		if ((*it)->getClient().getNickname() == nickname)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
-Channel* strChanneltoChannelType(Server& server, std::string& channelname) // renvoie le Channel utilisable correspodant au nom du channel
+Channel* strChanneltoChannelType(Server& server, std::string& channelName) // renvoie le Channel utilisable correspodant au nom du channel
 {
-	std::vector<std::string>::iterator it = find(server.getUChannelsName().begin(), server.getUChannelsName().end(), channelname);
-	if (it == server.getUChannelsName().end())
-		return NULL;
-	else
+	std::vector<Channel*>& channels = server.getChannels();
+	for(std::vector<Channel*>::iterator it = channels.begin(); it != channels.end(); it++)
 	{
-		int i = it  - server.getUChannelsName().begin();
-		return server.getChannels()[i];
+		if ((*it)->getName() == channelName)
+		{
+			return *it;
+		}
 	}
+	return NULL;
 }

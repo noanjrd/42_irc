@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 19:42:20 by naziha            #+#    #+#             */
-/*   Updated: 2026/02/21 15:36:51 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/22 14:48:08 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,5 @@ void INVITE(Client& client, std::vector<std::string>& commands)
     client.sendToClientMessage(messageUser);
 
     std::string messageInvite = ":" + client.getNickname() + "!" + client.getUsername() + "@serverIRC INVITE " + nickname + " #" + channelName + "\r\n";
-    client.sendToClientMessage(messageInvite);
+    invitedClient->sendToClientMessage(messageInvite);
 }

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 15:25:15 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 15:25:16 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/22 15:59:59 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void initpoll(Server &server);
 // UTILS
 
 bool 		isstrdigit(const std::string& str);
-Channel* 	strChanneltoChannelType(Server& server, std::string& channelname);
+Channel* 	strChanneltoChannelType(Server& server, std::string& channelName);
 
 // COMMANDS
 

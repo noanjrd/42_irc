@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 12:13:58 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/22 15:55:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,6 @@ std::string& Server::getPassword()
 	return this->password;
 }
 
-std::vector<std::string>& Server::getUsernames()
-{
-	return this->usernames;
-}
-
-
-std::vector<std::string>& Server::getUChannelsName()
-{
-	return this->channelsName;
-}
-
 std::vector<Channel*>& Server::getChannels()
 {
 	return this->channels;
@@ -70,7 +59,7 @@ bool Server::isUserInServer(Client& client)
 	return false;
 }
 
-void Server::removeClient(Client& client)
+void Server::removeClient(Client& client, bool closeFd)
 {
 	for (size_t i = 0; i < channels.size(); i++)
     {
@@ -82,9 +71,10 @@ void Server::removeClient(Client& client)
 		Client* c = &client_connexions[i]->getClient();
         if (c == &client)
         {
-			close(c->getFd());
-			delete client_connexions[i];
+			if (closeFd)
+				close(c->getFd());
             client_connexions.erase(client_connexions.begin() + i);
+			delete client_connexions[i];
             return;
         }
     }
