@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2026/02/23 13:50:00 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/23 14:26:29 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 			std::string noTopicMessage = ":serverIRC 331 " + client.getNickname() + " #" + channelName + " :No topic is set\r\n";
 			client.sendToClientMessage(noTopicMessage);
 		}
-		NAMES(client, commands);
+		std::vector<std::string> namesCommands;
+		namesCommands.push_back("NAMES");
+		namesCommands.push_back('#' + channelName);
+		NAMES(client, namesCommands);
 	}
 	catch (std::exception &e)
 	{
