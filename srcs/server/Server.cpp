@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 15:55:06 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 13:40:43 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ void Server::removeClient(Client& client, bool closeFd)
         {
 			if (closeFd)
 				close(c->getFd());
+			ClientConnexion * ClientConnexionTemp = client_connexions[i];
             client_connexions.erase(client_connexions.begin() + i);
-			delete client_connexions[i];
+			delete ClientConnexionTemp;
             return;
         }
     }
