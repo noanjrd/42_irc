@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 15:09:55 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 13:19:18 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ std::string Client::getCommandLineCtrlD(void) const
 
 bool Client::isBufferToReceiveEmpty(void) const
 {
-	if (this->bufferToReceive.length() > 0)
+	if (this->bufferToReceive.length())
 	{
 		return false;
 	}

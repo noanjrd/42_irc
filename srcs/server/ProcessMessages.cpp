@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ProcessMessages.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/23 10:51:37 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/23 13:07:14 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,18 @@ void process_mess(std::string commands, Client &client)
 		std::cerr << "Empty input" << std::endl;
 		return ;
 	}
-	if (commandsVector[0] == "auto") // tu peux utiliser la commande auto ou auto2 pour pas avoir a faire la configuration du client
+	if (commandsVector[0] == "auto")
 	{
 		client.autoconfigure();
 	}
 	if (commandsVector[0]  == "auto2")
 	{
 		client.autoconfigure2();
+	}
+	if (commandsVector[0] == "QUIT")
+	{
+		QUIT(client, commandsVector);
+		return ;
 	}
 	if (client.getAuthenticated() == false)
 	{
@@ -105,13 +110,8 @@ void process_mess(std::string commands, Client &client)
 		client.configure(commandsVector);
 		return ;
 	}
-	if (commandsVector[0] == "WHO")
-	{
-		NAMES(client, commandsVector);
-		return ;
-	}
-	void (*functions[9])(Client&, std::vector<std::string>&) = {JOIN, KICK, PRIVMSG, NAMES, TOPIC, INVITE, PART, QUIT, MODE};
-	std::string functions_name[9] = {"JOIN", "KICK", "PRIVMSG", "NAMES", "TOPIC", "INVITE", "PART", "QUIT", "MODE"};
+	void (*functions[9])(Client&, std::vector<std::string>&) = {JOIN, KICK, PRIVMSG, NAMES, TOPIC, INVITE, PART, MODE, NAMES};
+	std::string functions_name[9] = {"JOIN", "KICK", "PRIVMSG", "NAMES", "TOPIC", "INVITE", "PART", "MODE", "WHO"};
 	for (int i = 0; i < 10; i++)
 	{
 		if (commandsVector[0] == functions_name[i])

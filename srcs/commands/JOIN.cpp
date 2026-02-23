@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 16:03:44 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 13:10:14 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 	}
 	
 	std::string channelName = commands[1];
-	if (channelName[0] != '#')
+	if (channelName[0] != '#' || channelName.length() < 2)
 	{
 		std::string errorMessage = ":serverIRC 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
 		client.sendToClientMessage(errorMessage);
