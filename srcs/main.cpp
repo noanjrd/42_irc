@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilhasnao <ilhasnao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:04:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/23 12:35:19 by ilhasnao         ###   ########.fr       */
+/*   Updated: 2026/02/23 13:51:24 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int main(int argc, char** argv)
 		std::cerr << "Format: <port> <server_password>" << std::endl;
 		return 1;
 	}
-
-	// (void)argv;
 
 	int port = atoi(argv[1]);
 	if (port >= 0 && port <= 1023)

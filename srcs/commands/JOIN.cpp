@@ -25,7 +25,7 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 	}
 	
 	std::string channelName = commands[1];
-	if (channelName[0] != '#')
+	if (channelName[0] != '#' || channelName.length() < 2)
 	{
 		std::string errorMessage = ":serverIRC 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
 		client.sendToClientMessage(errorMessage);
