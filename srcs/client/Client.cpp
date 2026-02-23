@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilhasnao <ilhasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/23 14:29:34 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 14:49:57 by ilhasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void Client::authentication(std::vector<std::string>& commands)
 	return ;
 }
 
-// USER <u>sername> 0 * :<real name>
+// USER <username> 0 * :<real name>
 void Client::configure(std::vector<std::string>& commands)
 {
 	int countWords =commands.size();
