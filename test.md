@@ -1,9 +1,12 @@
 
+enlever auto, auto2, relink, commentaires pour signaux, 
+
+tester join avec mdp 
+
 test privmsg de hexchat a nc ?
 
 kick fonctionnel: juste sur nc il faut preciser le channel et hexchat le channel est deja pris en compte mais les messages sont broadcastes a tt le monde 
-
-apres un JOIN il faut 
+ 
 
 
 PASS secretpass

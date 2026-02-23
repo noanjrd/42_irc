@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MODE.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:30:27 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/23 10:34:47 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/23 12:38:40 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ bool modeO(Client& client, Channel* channel, char sign, std::string& param, cons
 {
 	if (param.empty())
 	{
-		std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
+		std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 		client.sendToClientMessage(error);
 		return false;
 	}
 
 	if (channel->isUserInChannelByNick(param) == false)
 	{
-		std::string error = ":server 441 " + client.getNickname() + " " + param + " #" + channelName + " :They aren't on that channel\r\n";
+		std::string error = ":serverIRC 441 " + client.getNickname() + " " + param + " #" + channelName + " :They aren't on that channel\r\n";
 		client.sendToClientMessage(error);
 		return false;
 	}
@@ -52,7 +52,7 @@ bool modeL(Client& client, Channel* channel, char sign, std::string& param)
 	{
 		if (param.empty())
 		{
-			std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
+			std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 			client.sendToClientMessage(error);
 			return false;
 		}
@@ -60,7 +60,7 @@ bool modeL(Client& client, Channel* channel, char sign, std::string& param)
 		{
 			if (!isdigit(param[i]))
 			{
-				std::string error = ":server 461 " + client.getNickname() + " MODE :Invalid limit parameter\r\n";
+				std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Invalid limit parameter\r\n";
 				client.sendToClientMessage(error);
 				return false;
 			}
@@ -69,7 +69,7 @@ bool modeL(Client& client, Channel* channel, char sign, std::string& param)
 		int limit = atoi(param.c_str());
 		if (limit <= 0)
 		{
-			std::string error = ":server 461 " + client.getNickname() + " MODE :Invalid limit parameter\r\n";
+			std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Invalid limit parameter\r\n";
 			client.sendToClientMessage(error);
 			return false;
 		}
@@ -89,7 +89,7 @@ bool parseMode(Client& client, std::vector<std::string>& commands, std::string& 
 	int countWords = commands.size();
 	if (countWords < 3)
 	{
-		std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
+		std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 		client.sendToClientMessage(error);
 		return false ;
 	}
@@ -97,7 +97,7 @@ bool parseMode(Client& client, std::vector<std::string>& commands, std::string& 
 	channelName = commands[1];
 	if (channelName.empty() || channelName[0] != '#')
 	{
-		std::string error = ":server 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
+		std::string error = ":serverIRC 403 " + client.getNickname() + " " + channelName + " :No such channel\r\n";
 		client.sendToClientMessage(error);
 		return false;
 	}
@@ -106,7 +106,7 @@ bool parseMode(Client& client, std::vector<std::string>& commands, std::string& 
 	std::string modeT = commands[2];
 	if (modeT.size() != 2 || (modeT[0] != '+' && modeT[0] != '-'))
 	{
-		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, modeT[0]) + " :is unknown mode char to me\r\n";
+		std::string error = ":serverIRC 472 " + client.getNickname() + " " + std::string(1, modeT[0]) + " :is unknown mode char to me\r\n";
 		client.sendToClientMessage(error);
 		return false;
 	}
@@ -115,7 +115,7 @@ bool parseMode(Client& client, std::vector<std::string>& commands, std::string& 
 	
 	if (mode != 'i' && mode != 't' && mode != 'k' && mode != 'l' && mode != 'o')
 	{
-		std::string error = ":server 472 " + client.getNickname() + " " + std::string(1, mode) + " :is unknown mode char to me\r\n";
+		std::string error = ":serverIRC 472 " + client.getNickname() + " " + std::string(1, mode) + " :is unknown mode char to me\r\n";
 		client.sendToClientMessage(error);
 		return false;
 	}
@@ -124,7 +124,7 @@ bool parseMode(Client& client, std::vector<std::string>& commands, std::string& 
 	{
 		if (countWords > 3)
 		{
-			std::string error = ":server 461 " + client.getNickname() + " MODE :Too many parameters\r\n";
+			std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Too many parameters\r\n";
 			client.sendToClientMessage(error);
 			return false;
 		}
@@ -133,11 +133,26 @@ bool parseMode(Client& client, std::vector<std::string>& commands, std::string& 
 	{	
 		if (sign == '+' && countWords < 4)
 		{
-			std::string error = ":server 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
+			std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 			client.sendToClientMessage(error);
 			return false;
 		}
-		if (countWords >= 4)
+		if (sign == '-' && (mode == 'k' || mode == 'l') && countWords > 3)
+		{
+			std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Too many parameters\r\n";
+			client.sendToClientMessage(error);
+			return false;
+		}
+		if (countWords > 4)
+		{
+			if (mode == 'l' || mode == 'o')
+			{
+				std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Too many parameters\r\n";
+				client.sendToClientMessage(error);
+				return false;
+			}
+		}
+		if (countWords == 4)
 		{
 			param = commands[3];
 			if (!param.empty() && param[0] == ':')
@@ -214,8 +229,6 @@ void MODE(Client& client, std::vector<std::string>& commands)
 	{
 		if (modeO(client, channel, sign, param, channelName) == false)
 			return ;
-
-
 	}
 	else if (mode == 'l')
 	{
