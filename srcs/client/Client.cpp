@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilhasnao <ilhasnao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 15:09:55 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 13:37:40 by ilhasnao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void Client::sendconnexionconfimation()
 	message += ":serverIRC 003 " + this->nickname + " :This server was created 2025-03-04\r\n";
 	message += ":serverIRC 004 " + this->nickname + " serverIRC 1.0 iow ikl\r\n";
 	message += ":serverIRC 005 " + this->nickname + " CHANTYPES=# PREFIX=(o)@ :are supported by this server\r\n";
+	message += ":serverIRC 376 " + this->nickname + " :End of MOTD command.\r\n";
 	this->sendToClientMessage(message);
 }
 
