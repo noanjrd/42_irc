@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Poll.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:55:08 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 15:38:56 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 10:52:29 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void initpoll(Server &server)
 			}
 
 			Client new_client(client_fd, server);
-			new_client.setBufferToReceive("PING :serverIRC\r\n");
 			pollfd  pollclient;
 			pollclient.fd = client_fd;
 			pollclient.events = POLLIN;

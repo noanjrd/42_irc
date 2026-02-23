@@ -21,7 +21,6 @@ SRCS = srcs/main.cpp\
 	srcs/commands/PART.cpp\
 	srcs/commands/MODE.cpp\
 	srcs/commands/INVITE.cpp\
-	srcs/commands/PING.cpp\
 
 OBJS = $(SRCS:.cpp=.o)
 

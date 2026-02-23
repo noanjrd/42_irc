@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bot_ping.cpp                                       :+:      :+:    :+:   */
+/*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:08:58 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/20 14:36:09 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/23 11:15:53 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,20 @@ int main(int argc, char **argv)
 		
 		std::string message = buffer;
 		std::cout << message << std::endl;
-		
-		if (message.find("PING") != std::string::npos)
-		{
-			std::string pong = "PONG" + message.substr(message.find("PING") + 4);
-			send(botFd, pong.c_str(), pong.size(), 0);
-		}
 
 		if (message.find(" 001 ") != std::string::npos)
 		{
 			std::string join = "JOIN #test\r\n";
 			send(botFd, join.c_str(), join.size(), 0);
 		}
-		
 		if (message.find("PRIVMSG #test") != std::string::npos)
-        {
+		{
 			if (message.find("Hi bot") != std::string::npos)
 			{
 				std::string response = "PRIVMSG #test :Hi human\r\n";
 				send(botFd, response.c_str(), response.size(), 0);
 			}
-        }
-		
+		}
 	}
 	close(botFd);
 	return (0);	

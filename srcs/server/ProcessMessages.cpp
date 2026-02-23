@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ProcessMessages.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 15:25:00 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 10:51:37 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ void process_mess(std::string commands, Client &client)
 		NAMES(client, commandsVector);
 		return ;
 	}
-	void (*functions[10])(Client&, std::vector<std::string>&) = {JOIN, KICK, PRIVMSG, NAMES, TOPIC, INVITE, PART, QUIT, MODE, PING};
-	std::string functions_name[10] = {"JOIN", "KICK", "PRIVMSG", "NAMES", "TOPIC", "INVITE", "PART", "QUIT", "MODE", "PING"};
+	void (*functions[9])(Client&, std::vector<std::string>&) = {JOIN, KICK, PRIVMSG, NAMES, TOPIC, INVITE, PART, QUIT, MODE};
+	std::string functions_name[9] = {"JOIN", "KICK", "PRIVMSG", "NAMES", "TOPIC", "INVITE", "PART", "QUIT", "MODE"};
 	for (int i = 0; i < 10; i++)
 	{
 		if (commandsVector[0] == functions_name[i])

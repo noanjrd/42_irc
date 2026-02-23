@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IRC.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 15:25:15 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 15:25:16 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 10:51:05 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ void QUIT(Client &client, std::vector<std::string>& commands);
 void PART(Client& client, std::vector<std::string>& commands);
 void MODE(Client& client, std::vector<std::string>& commands);
 void INVITE(Client& client, std::vector<std::string>& commands);
-void PING(Client& client, std::vector<std::string>& commands);
