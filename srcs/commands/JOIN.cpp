@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 16:00:12 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 16:03:44 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/23 13:50:00 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 	if (countWords >= 3)
 		password = commands[2];
 
+	bool isNewChannel = false;
 	Channel * channeltemp = strChanneltoChannelType(client.getServer(), channelName);
 	if (channeltemp == NULL)
 	{
@@ -47,7 +48,8 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 			newchannel->setPassword(password);
 		}
 		client.getServer().getChannels().push_back(newchannel);
-		return ;
+		channeltemp = newchannel;
+		isNewChannel = true;
 	}
 	if ((channeltemp->isInviteOnly() == true) && (channeltemp->isInvited(client.getNickname()) == false))
 	{
@@ -72,7 +74,9 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 	}
 	try
 	{
-		channeltemp->JoinChannel(client);
+		if (!isNewChannel)
+			channeltemp->JoinChannel(client);
+		
 		if (channeltemp->isInvited(client.getNickname()))
 			channeltemp->removeInvite(client.getNickname());
 
@@ -87,7 +91,6 @@ void JOIN(Client &client, std::vector<std::string> &commands)
 			client.sendToClientMessage(noTopicMessage);
 		}
 		NAMES(client, commands);
-		
 	}
 	catch (std::exception &e)
 	{

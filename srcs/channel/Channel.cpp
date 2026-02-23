@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 15:08:33 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/23 14:01:34 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ Channel::Channel(std::string name, Client &client) : name(name), userlimit(0), i
 	std::string confirmation = ":" + client.getNickname() + "!" + client.getUsername()  + "@serverIRC JOIN #" + this->name +  "\r\n";
 	client.sendToClientMessage(confirmation);
 	
-	std::string noTopicMessage = ":serverIRC 331 " + client.getNickname() + " #" + this->name + " :No topic is set \r\n";
-	client.sendToClientMessage(noTopicMessage);
+	// std::string noTopicMessage = ":serverIRC 331 " + client.getNickname() + " #" + this->name + " :No topic is set \r\n";
+	// client.sendToClientMessage(noTopicMessage);
 }
 
 Channel::~Channel() {}
