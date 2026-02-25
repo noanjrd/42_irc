@@ -6,15 +6,11 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:24:39 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/24 18:02:53 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/25 12:14:33 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/IRC.hpp"
-
-//SIGINT Ctrl+C
-//SIGTERM kill pid
-//SIGPIPE ecriture sur un socket ferme 
  
 volatile sig_atomic_t g_running = 1;
 

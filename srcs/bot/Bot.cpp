@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:08:58 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/23 11:15:53 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/25 12:13:26 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int main(int argc, char **argv)
 		return (1);
 	}
 
-	int botFd = socket(AF_INET, SOCK_STREAM, 0); //creer un socket IPv4 qui utilise TCP
+	int botFd = socket(AF_INET, SOCK_STREAM, 0); 
 	if (botFd < 0)
 		return (1);
 
-	sockaddr_in addr;// structure pour IPv4 qui contient une addr IP un port et un type de reseau
-	std::memset(&addr, 0, sizeof(addr));//pour eviter des valeurs aleatoire on met tout a 0
-	addr.sin_family = AF_INET; //correspond a IPv4
-	addr.sin_port = htons(atoi(argv[2])); //definition du port du serveur // htons =Host TO Network Short
+	sockaddr_in addr;
+	std::memset(&addr, 0, sizeof(addr));
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(atoi(argv[2]));
 	
 	if (inet_pton(AF_INET, argv[1], &addr.sin_addr) <= 0)
 	{
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     	return (1);
 	}
 
-	if (connect(botFd, (sockaddr*)&addr, sizeof(addr)) < 0) // pour que ce socket soit connecte a ce server, a cette adresse, et ce port
+	if (connect(botFd, (sockaddr*)&addr, sizeof(addr)) < 0)
 	{
 		close(botFd);
 		return (1);

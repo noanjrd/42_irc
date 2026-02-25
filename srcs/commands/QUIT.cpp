@@ -6,15 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 12:31:18 by naziha            #+#    #+#             */
-/*   Updated: 2026/02/24 18:03:21 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/25 12:15:48 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/IRC.hpp"
 
-// QUIT \r\n
-// QUIT :<message>\r\n
-// QUIT mot\r\n
+// QUIT :<message>
 
 void QUIT(Client &client, std::vector<std::string> &commands)
 {

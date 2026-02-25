@@ -6,16 +6,12 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:04:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/24 18:05:42 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/25 12:25:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/IRC.hpp"
 
-// AF_INET --> IPv4
-// SOCK_STREAM --> TCP
-// INADDR_ANY --> accepte la connexion depuis n importe quel adresse ip
-// POLLIN --> constante de valeur 0b000001 qui veut dire que il y a des données disponibles à lire sur le socket
 
 int main(int argc, char** argv)
 {
@@ -23,15 +19,14 @@ int main(int argc, char** argv)
 	signal(SIGTERM, handleSignal);
 	signal(SIGPIPE, SIG_IGN);
 	
-	std::cout << "Server is being executed. Type Ctrl+C to stop it.\n";
 	
-	if (argc < 3)
+	if (argc != 3)
 	{
 		std::cerr << "Wrong number of arguments." << std::endl;
 		std::cerr << "Format: <port> <server_password>" << std::endl;
 		return 1;
 	}
-
+	
 	int port = atoi(argv[1]);
 	if (port >= 0 && port <= 1023)
 	{
@@ -44,11 +39,12 @@ int main(int argc, char** argv)
 		std::cerr << "Please enter a port between 1023 and 65535." << std::endl;
 		return 1;
 	}
+	std::cout << "Server is being executed. Type Ctrl+C to stop it.\n";
 
 	std::string password = argv[2];
 
 	int serverFd = socket(AF_INET,SOCK_STREAM,0);
-	struct sockaddr_in address; // definition adresse du serveur
+	struct sockaddr_in address;
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(port);
@@ -60,13 +56,13 @@ int main(int argc, char** argv)
 		std::cerr << "Problem with setsockopt function, server exited successfully !" << std::endl;
 		exit(1);
 	}
-	if (bind(serverFd, (struct sockaddr*)&address, sizeof(address)) < 0) // associce le socket a l adrsse
+	if (bind(serverFd, (struct sockaddr*)&address, sizeof(address)) < 0)
 	{
 		close(serverFd);
 		std::cerr << "Problem with bind function, server exited successfully !" << std::endl;
 		exit(1);
 	}
-	if (listen(serverFd, 99) < 0) //socket ouvert pret a ecouter, 99 est le nb max de connections avant la file d attente
+	if (listen(serverFd, 99) < 0) 
 	{
 		close (serverFd);
 		std::cerr << "Problem with listen function, server exited successfully !" << std::endl;

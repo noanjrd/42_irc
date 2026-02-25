@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:30 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 15:18:22 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/25 12:16:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <iostream>
 #include <map>
 #include "Client.hpp"
-
 #include <set>
 
 class Channel
@@ -71,6 +70,6 @@ class Channel
 		void setUserLimit(int limit);
 		size_t getUserLimit() const;
 		
-		bool channelHasOperator() const;// voir sil y a un operator dasn le channel sinon il faut donner le mode operator au premier client de la liste du channel
+		bool channelHasOperator() const;
 		void giveOperator();
 };

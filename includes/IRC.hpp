@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IRC.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 15:25:15 by njard             #+#    #+#             */
-/*   Updated: 2026/02/23 10:51:05 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/25 12:17:26 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void handleSignal(int sig);
 void process_mess(std::string message, Client &client);
 void split_message(std::string commands, Client &client);
 void initpoll(Server &server);
-
 
 // UTILS
 

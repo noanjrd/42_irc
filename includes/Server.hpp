@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:29:52 by njard             #+#    #+#             */
-/*   Updated: 2026/02/22 15:54:57 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/25 12:16:55 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Server
 {
 	private:
 		std::vector<Channel*> channels;
-		std::vector<ClientConnexion*> client_connexions; // Liste des clients
+		std::vector<ClientConnexion*> client_connexions;
 		std::string password;
 		int sevrer_fd;
 		int port;
