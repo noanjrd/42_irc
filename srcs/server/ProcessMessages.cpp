@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ProcessMessages.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/24 18:01:36 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/25 11:09:53 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void process_mess(std::string commands, Client &client)
 	}
 	void (*functions[9])(Client&, std::vector<std::string>&) = {JOIN, KICK, PRIVMSG, NAMES, TOPIC, INVITE, PART, MODE, NAMES};
 	std::string functions_name[9] = {"JOIN", "KICK", "PRIVMSG", "NAMES", "TOPIC", "INVITE", "PART", "MODE", "WHO"};
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		if (commandsVector[0] == functions_name[i])
 		{

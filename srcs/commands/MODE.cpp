@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:30:27 by naankour          #+#    #+#             */
-/*   Updated: 2026/02/23 12:38:40 by naankour         ###   ########.fr       */
+/*   Updated: 2026/02/25 11:54:21 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ bool modeL(Client& client, Channel* channel, char sign, std::string& param)
 bool parseMode(Client& client, std::vector<std::string>& commands, std::string& channelName, char& sign, char& mode, std::string& param)
 {
 	int countWords = commands.size();
-	if (countWords < 3)
+
+	if (countWords < 2)
 	{
 		std::string error = ":serverIRC 461 " + client.getNickname() + " MODE :Not enough parameters\r\n";
 		client.sendToClientMessage(error);
@@ -102,6 +103,31 @@ bool parseMode(Client& client, std::vector<std::string>& commands, std::string& 
 		return false;
 	}
 	channelName = channelName.substr(1);
+
+	Channel* channel = strChanneltoChannelType(client.getServer(), channelName);
+	if (!channel)
+	{
+		std::string error = ":serverIRC 403 " + client.getNickname() + " #" + channelName + " :No such channel\r\n";
+		client.sendToClientMessage(error);
+		return false;
+	}
+	
+	if (countWords == 2)
+	{	
+		std::string modes = "+";
+		if (channel->isInviteOnly() == true)
+			modes += "i";
+		if (channel->isTopicProtected() == true)
+			modes += "t";
+		if (channel->isHasPassword() == true)
+			modes += "k";
+		if (channel->ishasAUserLimit() == true)
+			modes += "l";
+	
+		std::string reply = ":serverIRC 324 " + client.getNickname() + " #" + channelName + " " + modes + "\r\n";
+		client.sendToClientMessage(reply);
+		return false;
+	}
 	
 	std::string modeT = commands[2];
 	if (modeT.size() != 2 || (modeT[0] != '+' && modeT[0] != '-'))
