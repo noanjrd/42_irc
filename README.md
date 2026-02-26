@@ -49,15 +49,7 @@ This project is a custom implementation of an IRC (Internet Relay Chat) server, 
 │   │   ├── Client.cpp        # Client class implementation
 │   │   └── ClientConnection.cpp # ClientConnection class implementation
 │   ├── commands/             # Implementation of IRC commands
-│   │   ├── INVITE.cpp
-│   │   ├── JOIN.cpp
-│   │   ├── KICK.cpp
-│   │   ├── MODE.cpp
-│   │   ├── NAMES.cpp
-│   │   ├── PART.cpp
-│   │   ├── PRIVMSG.cpp
-│   │   ├── QUIT.cpp
-│   │   └── TOPIC.cpp
+│   │   ├── ...
 │   └── server/               # Server core logic and event loop
 │       ├── Poll.cpp          # Polling and event loop logic
 │       ├── ProcessMessages.cpp # Message parsing and dispatch
