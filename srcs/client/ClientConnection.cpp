@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClientConnexion.cpp                                :+:      :+:    :+:   */
+/*   ClientConnection.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,16 @@
 
 #include "../../includes/IRC.hpp"
 
-ClientConnexion::ClientConnexion(Client client, pollfd pfd) : client(client), pfd(pfd)  {}
+ClientConnection::ClientConnection(Client client, pollfd pfd) : client(client), pfd(pfd)  {}
 
-ClientConnexion::~ClientConnexion() {}
+ClientConnection::~ClientConnection() {}
 
-Client& ClientConnexion::getClient()
+Client& ClientConnection::getClient()
 {
 	return this->client;
 }
 
-pollfd& ClientConnexion::getPollfd()
+pollfd& ClientConnection::getPollfd()
 {
 	return this->pfd;
 }

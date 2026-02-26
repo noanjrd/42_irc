@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClientConnexion.hpp                                :+:      :+:    :+:   */
+/*   ClientConnection.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,15 +18,15 @@
 
 #include "Client.hpp"
 
-class ClientConnexion
+class ClientConnection
 {
 	private:
 		Client client;
 		pollfd pfd;
 
 	public:
-		ClientConnexion(Client client, pollfd pfd);
-		~ClientConnexion();
+		ClientConnection(Client client, pollfd pfd);
+		~ClientConnection();
 		Client& getClient();
 		pollfd& getPollfd();
 };

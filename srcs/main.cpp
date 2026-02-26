@@ -6,19 +6,17 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:04:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/25 12:25:09 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:35:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/IRC.hpp"
-
 
 int main(int argc, char** argv)
 {
 	signal(SIGINT, handleSignal);
 	signal(SIGTERM, handleSignal);
 	signal(SIGPIPE, SIG_IGN);
-	
 	
 	if (argc != 3)
 	{
@@ -62,14 +60,13 @@ int main(int argc, char** argv)
 		std::cerr << "Problem with bind function, server exited successfully !" << std::endl;
 		exit(1);
 	}
-	if (listen(serverFd, 99) < 0) 
+	if (listen(serverFd, 1) < 0) 
 	{
 		close (serverFd);
 		std::cerr << "Problem with listen function, server exited successfully !" << std::endl;
 		exit(1);
 	}
 	Server server(serverFd, port, password);
-
-	initpoll(server);
+	pollLoop(server);
 	return 0;
 }

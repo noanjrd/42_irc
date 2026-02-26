@@ -1,4 +1,4 @@
-This project has been created as part of the 42 curriculum by **njard**, **naankour**, **ilhasnao**.
+_This project has been created as part of the 42 curriculum by **njard**, **naankour**, **ilhasnao**._
 
 ## Description
 
@@ -7,6 +7,7 @@ This project has been created as part of the 42 curriculum by **njard**, **naank
 The server supports multiple simultaneous client connections using `poll()` for I/O multiplexing, and implements core IRC functionalities including channel management, private messaging, user authentication, and various channel modes. The implementation follows the IRC RFC specifications to ensure compatibility with standard IRC clients.
 
 ### Key Features
+
 - Multi-client support with non-blocking I/O
 - User authentication with password protection
 - Channel creation and management
@@ -14,7 +15,7 @@ The server supports multiple simultaneous client connections using `poll()` for 
 - Private messaging between users
 - Channel operator commands (KICK, INVITE, TOPIC, MODE)
 - Signal handling for graceful shutdown
-- Bonus: Simple ping-responding bot
+- Bonus: Simple responding bot
 
 ## Instructions
 
@@ -27,7 +28,7 @@ make
 
 This will generate two executables:
 - ircserv: The IRC server
-- bot: A simple bot that responds to PING messages
+- bot: A bot that responds to a simple message after joining a channel #test
 
 To clean object files:
 ```bash

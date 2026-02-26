@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 15:25:15 by njard             #+#    #+#             */
-/*   Updated: 2026/02/25 12:17:26 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:42:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #include "Client.hpp"
 #include "Server.hpp"
 #include "Channel.hpp"
-#include "ClientConnexion.hpp"
+#include "ClientConnection.hpp"
 
 // SIGNALS
 
@@ -42,14 +42,15 @@ void handleSignal(int sig);
 
 // SERVER
 
-void process_mess(std::string message, Client &client);
-void split_message(std::string commands, Client &client);
-void initpoll(Server &server);
+void processMessage(std::string message, Client &client);
+void splitMessage(std::string commands, Client &client);
+void pollLoop(Server &server);
 
 // UTILS
 
 bool 		isstrdigit(const std::string& str);
 Channel* 	strChanneltoChannelType(Server& server, std::string& channelName);
+std::vector<std::string> convertToVector(const std::string&);
 
 // COMMANDS
 

@@ -6,7 +6,7 @@ RM = rm -rf
 SRCS = srcs/main.cpp\
 	srcs/Utils.cpp\
 	srcs/client/Client.cpp\
-	srcs/client/ClientConnexion.cpp\
+	srcs/client/ClientConnection.cpp\
 	srcs/channel/Channel.cpp\
 	srcs/server/Server.cpp\
 	srcs/server/Poll.cpp\

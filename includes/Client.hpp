@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:27:17 by njard             #+#    #+#             */
-/*   Updated: 2026/02/21 15:17:48 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:20:17 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ class Client
 		void configure(std::vector<std::string>& commands);
 		void sendconnexionconfimation();
 		void autoconfigure();
-		void autoconfigure2();
 		void sendToClientMessage(std::string);
 };

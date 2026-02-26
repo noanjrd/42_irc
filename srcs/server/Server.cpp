@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:42:16 by njard             #+#    #+#             */
-/*   Updated: 2026/02/23 13:40:43 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:42:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ std::vector<Channel*>& Server::getChannels()
 	return this->channels;
 }
 
-std::vector<ClientConnexion*>& Server::getClient_connexions()
+std::vector<ClientConnection*>& Server::getClient_connexions()
 {
 	return this->client_connexions;
 }
@@ -73,9 +73,9 @@ void Server::removeClient(Client& client, bool closeFd)
         {
 			if (closeFd)
 				close(c->getFd());
-			ClientConnexion * ClientConnexionTemp = client_connexions[i];
+			ClientConnection * ClientConnectionTemp = client_connexions[i];
             client_connexions.erase(client_connexions.begin() + i);
-			delete ClientConnexionTemp;
+			delete ClientConnectionTemp;
             return;
         }
     }

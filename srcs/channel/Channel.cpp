@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:29:02 by njard             #+#    #+#             */
-/*   Updated: 2026/02/23 14:30:08 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:35:26 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void Channel::setUserLimit(int limit)
 
 size_t Channel::getUserLimit() const
 {
-	return (userlimit);
+	return userlimit;
 }
 
 bool Channel::channelHasOperator() const

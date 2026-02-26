@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:46:49 by njard             #+#    #+#             */
-/*   Updated: 2026/02/25 12:15:02 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:42:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ bool isstrdigit(const std::string& str)
 
 bool isUserInServer(Server& server, std::string& nickname)
 {
-	std::vector<ClientConnexion *>& clients = server.getClient_connexions();
-	for (std::vector<ClientConnexion *>::iterator it = clients.begin(); it != clients.end(); it++)
+	std::vector<ClientConnection *>& clients = server.getClient_connexions();
+	for (std::vector<ClientConnection *>::iterator it = clients.begin(); it != clients.end(); it++)
 	{
 		if ((*it)->getClient().getNickname() == nickname)
 		{
@@ -47,4 +47,31 @@ Channel* strChanneltoChannelType(Server& server, std::string& channelName)
 		}
 	}
 	return NULL;
+}
+
+std::vector<std::string> convertToVector(const std::string& s)
+{
+	int i  = 0;
+	bool letter = 0;
+	int start = -99;
+	std::vector<std::string> result;
+	while(s[i])
+	{
+		if (!std::isspace(s[i]) && letter == 0)
+		{
+			letter = 1;
+			start = i;
+		}
+		if (std::isspace(s[i]) && letter == 1)
+		{
+			result.push_back(s.substr(start, i-start));
+			letter = 0;
+		}
+		i++;
+	}
+	if (i >= 1 && !std::isspace(s[i-1]) && letter == 1)
+	{
+		result.push_back(s.substr(start,i-start));
+	}
+	return result;
 }

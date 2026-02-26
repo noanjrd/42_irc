@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:29:52 by njard             #+#    #+#             */
-/*   Updated: 2026/02/25 12:16:55 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:42:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <vector>
 
 #include "Channel.hpp"
-#include "ClientConnexion.hpp"
+#include "ClientConnection.hpp"
 #include "IRC.hpp"
 
 class Client;
@@ -25,7 +25,7 @@ class Server
 {
 	private:
 		std::vector<Channel*> channels;
-		std::vector<ClientConnexion*> client_connexions;
+		std::vector<ClientConnection*> client_connexions;
 		std::string password;
 		int sevrer_fd;
 		int port;
@@ -37,7 +37,7 @@ class Server
 		int getFd() const;
 		int getPort() const;
 		std::vector<Channel*>& getChannels();
-		std::vector<ClientConnexion*>& getClient_connexions();
+		std::vector<ClientConnection*>& getClient_connexions();
 		Client* getClientByNick(const std::string& nickname);
 		std::string& getPassword();
 		

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/24 18:05:12 by njard            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:37:28 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,39 +184,17 @@ bool Client::operator==(Client& cl) const
 
 bool Client::operator!=(Client& cl) const
 {
-	if (cl.getUsername() != this->username)
+	if (cl.getNickname() != this->nickname)
 	{
 		return true;
 	}
 	return false;
 }
 
-void Client::autoconfigure()
-{
-	this->username = "Noan";
-	this->nickname = "nono";
-	this->realname = "Noan Jard";
-	this->configured = 1;
-	this->authenticated = 1;
-	this->sendconnexionconfimation();
-}
-
-void Client::autoconfigure2()
-{
-	this->username = "Naziha";
-	this->nickname = "nana";
-	this->realname = "Naziha Aankour";
-	this->configured = 1;
-	this->authenticated = 1;
-	this->sendconnexionconfimation();
-}
-
-
 void Client::setCommandLineCtrlD(std::string command)
 {
 	this->commandLineCtrlD = command;
 }
-
 
 std::string Client::getCommandLineCtrlD(void) const
 {
