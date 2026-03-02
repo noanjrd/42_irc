@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:19:27 by njard             #+#    #+#             */
-/*   Updated: 2026/02/26 14:37:28 by njard            ###   ########.fr       */
+/*   Updated: 2026/03/02 12:40:00 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void Client::configure(std::vector<std::string>& commands)
 		}
 		else
 		{
-			std::string errorMessage = ":serverIRC 433 * "+ nickname+ ":Nickname is already in use\r\n";
+			std::string errorMessage = ":serverIRC 433 * "+ nickname+ " :Nickname is already in use\r\n";
 			this->sendToClientMessage(errorMessage);
 		}
 	}

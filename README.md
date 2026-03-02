@@ -1,170 +1,189 @@
-# IRC Server
+# ft_IRC — Internet Relay Chat Server
 
-## Introduction
-
-This project is a custom implementation of an IRC (Internet Relay Chat) server, developed as part of the 42 school curriculum. The server is written in C++98 and aims to provide a functional IRC environment, supporting multiple clients, channels, and the most common IRC commands. The project demonstrates network programming, socket management, and real-time communication between users.
-
-## Table of Contents
-
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Build Instructions](#build-instructions)
-- [Usage](#usage)
-- [Supported IRC Commands](#supported-irc-commands)
-- [Bot](#bot)
-- [Signals and Shutdown](#signals-and-shutdown)
-- [Authors](#authors)
+A custom IRC server written in **C++98**, following the IRC protocol (RFC 1459), built as part of the 42 school curriculum.  
+Through this project, we learned how to work with **sockets** and network programming, while building a server that supports multiple simultaneous clients using **non-blocking I/O** with `poll()`, handles authentication, channel management, and IRC commands.
 
 ## Features
 
-- **Multi-client support:** Multiple users can connect and interact simultaneously.
-- **Channel management:** Users can create, join, leave, and manage channels.
-- **User authentication:** Password-protected server access.
-- **Operator privileges:** Channel operators can manage users and channel settings.
-- **IRC commands:** Implements standard IRC commands (`JOIN`, `PART`, `NAMES`, `KICK`, `TOPIC`, `PRIVMSG`, `QUIT`, `MODE`, `INVITE`).
-- **Bot:** Includes a simple IRC bot for demonstration and testing.
-- **Graceful shutdown:** Handles system signals for clean server termination.
-- **Compatibility:** Can be used with standard IRC clients.
+- Non-blocking I/O using `poll()`
+- Multiple simultaneous clients
+- Password-protected server authentication
+- Full nickname/username registration
+- Channel creation and management
+- Operator privileges
+- Channel modes: `i`, `t`, `k`, `l`, `o`
+- Graceful shutdown on `SIGINT` / `SIGTERM`
+- A basic IRC bot
+
+## Requirements
+
+- `c++` compiler (C++98 compatible)
+- Linux
+- Compatible IRC client (e.g., [HexChat](https://hexchat.github.io/))
+
+## Installation
+
+```bash
+git clone <https://github.com/noanjrd/42_IRC>
+cd 42_IRC
+make
+```
+
+This will compile both the server (`ircserv`) and the bot (`bot`).
+
+## Usage
+
+### Start the server
+
+```bash
+./ircserv <port> <password>
+```
+
+| Argument   | Description                          |
+|------------|--------------------------------------|
+| `port`     | Port number (1024–65535)             |
+| `password` | Password required to connect         |
+
+**Example:**
+```bash
+./ircserv 6667 mypassword
+```
+
+### Connect with an IRC client
+
+Using **nc** (for testing):
+```bash
+nc localhost 6667
+```
+
+### Stop the server
+
+Press `Ctrl+C` — the server will shut down gracefully.
+
+---
+
+## Commands
+
+> All commands follow the standard IRC protocol format.
+
+### Connection
+
+| Command | Syntax | Description |
+|---------|--------|-------------|
+| `PASS`  | `PASS <password>` | Authenticate with the server |
+| `NICK`  | `NICK <nickname>` | Set your nickname |
+| `USER`  | `USER <username> 0 * :<realname>` | Set your username |
+| `QUIT`  | `QUIT [:<message>]` | Disconnect from the server |
+
+### Channel
+
+| Command   | Syntax | Description |
+|-----------|--------|-------------|
+| `JOIN`    | `JOIN <#channel> [password]` | Join or create a channel |
+| `PART`    | `PART <#channel>[,#channel2] [:<reason>]` | Leave a channel |
+| `NAMES`   | `NAMES <#channel>` | List users in a channel |
+| `TOPIC`   | `TOPIC <#channel> [:<topic>]` | Get or set the channel topic |
+| `KICK`    | `KICK <#channel> <user> [:<reason>]` | Remove a user from a channel |
+| `INVITE`  | `INVITE <nickname> <#channel>` | Invite a user to a channel |
+| `PRIVMSG` | `PRIVMSG <#channel\|nickname> :<message>` | Send a message to a channel or user |
+| `MODE`    | `MODE <#channel> <+/-mode> [param]` | Set or unset channel modes |
+
+### Channel Modes
+
+| Mode | Description |
+|------|-------------|
+| `+i` / `-i` | Toggle invite-only mode |
+| `+t` / `-t` | Toggle operator-only topic changes |
+| `+k <password>` / `-k` | Set or remove a channel password |
+| `+l <limit>` / `-l` | Set or remove a user limit |
+| `+o <nick>` / `-o <nick>` | Grant or revoke operator status |
+
+---
+
+## Bot
+
+A simple IRC bot is included and connects to the server automatically.
+
+### Start the bot
+
+```bash
+./bot <server_ip> <port> <password>
+```
+
+**Example:**
+```bash
+./bot 127.0.0.1 6667 mypassword
+```
+
+### Bot behavior
+
+- Connects and authenticates to the server
+- Automatically joins `#test`
+- Responds to `Hi bot` in `#test` with `Hi human`
+
+## Architecture
+
+```
+Client connects
+      │
+      ▼
+  poll() loop
+      │
+      ├── POLLIN  → recv() → splitMessage() → processMessage()
+      │                                             │
+      │                                    ┌────────┴────────┐
+      │                                    │                 │
+      │                              Authentication     Commands
+      │                              (PASS/NICK/USER)  (JOIN/PART/...)
+      │
+      └── POLLOUT → send() pending messages from the output buffer to client
+```
+
+- **Non-blocking I/O**: All sockets are managed via `poll()`, no threads are used.
+- **Message buffering**: Each client has an outgoing message buffer (`bufferToReceive`). Messages are sent when `POLLOUT` is ready.
+- **Channel management**: Channels are dynamically created on first `JOIN` and destroyed when empty.
+- **Operator management**: The first user to join a channel becomes its operator. If the operator leaves, the next user is promoted automatically.
 
 ## Project Structure
 
 ```
-.
-├── Makefile                  # Build instructions for compiling the server and bot
-├── README.md                 # Project documentation (this file)
-├── includes/                 # Header files for class and function declarations
-│   ├── Channel.hpp           # Channel class definition (channel management)
-│   ├── Client.hpp            # Client class definition (user management)
-│   ├── ClientConnection.hpp  # ClientConnection class (client socket abstraction)
-│   ├── IRC.hpp               # Main includes, macros, and function prototypes
-│   └── Server.hpp            # Server class definition (core server logic)
-├── srcs/                     # Source files for implementation
-│   ├── main.cpp              # Entry point of the IRC server
-│   ├── Utils.cpp             # Utility functions (helpers, parsing, etc.)
-│   ├── bot/                  # IRC bot source code
-│   │   └── Bot.cpp           # Simple IRC bot implementation
-│   ├── channel/              # Channel-related source code
-│   │   └── Channel.cpp       # Channel class implementation
-│   ├── client/               # Client-related source code
-│   │   ├── Client.cpp        # Client class implementation
-│   │   └── ClientConnection.cpp # ClientConnection class implementation
-│   ├── commands/             # Implementation of IRC commands
-│   │   ├── ...
-│   └── server/               # Server core logic and event loop
-│       ├── Poll.cpp          # Polling and event loop logic
-│       ├── ProcessMessages.cpp # Message parsing and dispatch
-│       ├── Server.cpp        # Server class implementation
-│       └── Signals.cpp       # Signal handling (SIGINT, SIGTERM)
-└── .github/                  # GitHub configuration files
-    └── ...
+ft_irc/
+├── includes/
+│   ├── IRC.hpp              # Global includes, constants, function declarations
+│   ├── Server.hpp           # Server class
+│   ├── Client.hpp           # Client class
+│   ├── ClientConnection.hpp # Client + pollfd wrapper
+│   └── Channel.hpp          # Channel class
+├── srcs/
+│   ├── main.cpp             # Entry point, socket setup
+│   ├── Utils.cpp            # Utility functions
+│   ├── server/
+│   │   ├── Server.cpp       # Server methods
+│   │   ├── Poll.cpp         # poll() event loop
+│   │   ├── ProcessMessages.cpp # Message parsing & routing
+│   │   └── Signals.cpp      # Signal handling
+│   ├── client/
+│   │   ├── Client.cpp       # Client methods (auth, config, buffers)
+│   │   └── ClientConnection.cpp
+│   ├── channel/
+│   │   └── Channel.cpp      # Channel logic
+│   ├── commands/
+│   │   ├── JOIN.cpp
+│   │   ├── PART.cpp
+│   │   ├── QUIT.cpp
+│   │   ├── KICK.cpp
+│   │   ├── INVITE.cpp
+│   │   ├── TOPIC.cpp
+│   │   ├── PRIVMSG.cpp
+│   │   ├── MODE.cpp
+│   │   └── NAMES.cpp
+│   └── bot/
+│       └── Bot.cpp          # IRC bot
+└── Makefile
 ```
-
-## Build Instructions
-
-### Prerequisites
-
-- C++ compiler supporting C++98 (e.g., `g++`)
-- `make` utility
-
-### Compilation
-
-To build the server and the bot, run:
-
-```sh
-make
-```
-
-This will produce two executables:
-- `ircserv` — the IRC server
-- `bot` — a simple IRC bot
-
-To clean object files:
-
-```sh
-make clean
-```
-
-To remove all binaries and object files:
-
-```sh
-make fclean
-```
-
-To rebuild everything:
-
-```sh
-make re
-```
-
-## Usage
-
-### Starting the Server
-
-```sh
-./ircserv <port> <server_password>
-```
-
-- `<port>`: The port number to listen on (must be between 1024 and 65535).
-- `<server_password>`: The password required for clients to connect.
-
-Example:
-
-```sh
-./ircserv 6667 mysecretpassword
-```
-
-### Connecting with an IRC Client
-
-You can use any IRC client (e.g., `irssi`, `weechat`, or a custom client) to connect:
-
-- **Server:** `localhost`
-- **Port:** The port you specified (e.g., 6667)
-- **Password:** The server password
-
-### Using the Bot
-
-To run the bot:
-
-```sh
-./bot <server_ip> <port> <password>
-```
-
-Example:
-
-```sh
-./bot 127.0.0.1 6667 mysecretpassword
-```
-
-The bot will automatically join the `#test` channel and respond to "Hi bot" messages.
-
-## Supported IRC Commands
-
-- `PASS <password>` — Authenticate with the server.
-- `NICK <nickname>` — Set your nickname.
-- `USER <username> 0 * :<realname>` — Set your username and real name.
-- `JOIN <#channel> [password]` — Join or create a channel.
-- `PART <#channel>[,#channel2,...] [:reason]` — Leave one or more channels.
-- `NAMES <#channel>` — List users in a channel.
-- `KICK <#channel> <user> [reason]` — Remove a user from a channel.
-- `TOPIC <#channel> [:topic]` — View or set the channel topic.
-- `PRIVMSG <user|#channel> :<message>` — Send a private message.
-- `QUIT [:message]` — Disconnect from the server.
-- `MODE <#channel> <modes> [parameters]` — Set or view channel modes.
-- `INVITE <nickname> <#channel>` — Invite a user to a channel.
-
-## Bot
-
-A simple IRC bot is included for demonstration and testing. The bot connects to the server, authenticates, joins a channel, and can respond to specific messages. You can modify the bot's behavior in [srcs/bot/Bot.cpp](srcs/bot/Bot.cpp).
-
-## Signals and Shutdown
-
-- The server handles `SIGINT` and `SIGTERM` for graceful shutdown.
-- Use `Ctrl+C` in the terminal to stop the server safely.
 
 ## Authors
 
-This project was developed with love at 42.
-
-- [JARD Noan](https://github.com/noanjrd)
-- [AANKOUR Naziha](https://github.com/naankour)
-- [HASNAOUI Iliane](https://github.com/hasnawww)
+- [**JARD Noan**](https://github.com/noanjrd)
+- [**AANKOUR Naziha**](https://github.com/naankour)
+- [**HASNAOUI Iliane**](https://github.com/hasnawww)

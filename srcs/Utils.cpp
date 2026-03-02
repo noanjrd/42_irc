@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:46:49 by njard             #+#    #+#             */
-/*   Updated: 2026/02/26 14:42:07 by njard            ###   ########.fr       */
+/*   Updated: 2026/03/02 12:21:23 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ Channel* strChanneltoChannelType(Server& server, std::string& channelName)
 	return NULL;
 }
 
-std::vector<std::string> convertToVector(const std::string& s)
+std::vector<std::string> convertStrToVector(const std::string& s)
 {
 	int i  = 0;
 	bool letter = 0;

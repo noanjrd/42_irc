@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 12:28:22 by njard             #+#    #+#             */
-/*   Updated: 2026/02/26 14:37:35 by njard            ###   ########.fr       */
+/*   Updated: 2026/03/02 12:21:45 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void splitMessage(std::string commands, Client &client)
 void processMessage(std::string commands, Client &client)
 {
 	std::cout << "splited  vector :" << std::endl;
-	std::vector<std::string> commandsVector = convertToVector(commands);
+	std::vector<std::string> commandsVector = convertStrToVector(commands);
 	for (unsigned long i = 0; i < commandsVector.size() ;i++)
 	{
 		std::cout << commandsVector[i] << std::endl;

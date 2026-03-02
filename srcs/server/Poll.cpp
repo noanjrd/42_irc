@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 14:55:08 by njard             #+#    #+#             */
-/*   Updated: 2026/02/26 14:42:07 by njard            ###   ########.fr       */
+/*   Updated: 2026/03/02 12:37:42 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void pollLoop(Server &server)
 				continue;
 
 			char buff[4000];
-			int bytes = recv(watchedSockets[i].fd, buff, sizeof(buff),0);
+			ssize_t bytes = recv(watchedSockets[i].fd, buff, sizeof(buff),0);
 			if (bytes <= 0) 
 			{
 				watchedSockets.erase(watchedSockets.begin() + i);
@@ -89,7 +89,7 @@ void pollLoop(Server &server)
 		if (watchedSockets[0].revents & POLLIN)
 		{
 			int fdClient = accept(server.getFd(), NULL, NULL);
-			if (fdClient < -1)
+			if (fdClient < 0)
 			{
 				std::cout << "error" << std::endl;
 				continue;

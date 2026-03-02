@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 15:25:15 by njard             #+#    #+#             */
-/*   Updated: 2026/02/26 14:42:07 by njard            ###   ########.fr       */
+/*   Updated: 2026/03/02 12:21:35 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void pollLoop(Server &server);
 
 bool 		isstrdigit(const std::string& str);
 Channel* 	strChanneltoChannelType(Server& server, std::string& channelName);
-std::vector<std::string> convertToVector(const std::string&);
+std::vector<std::string> convertStrToVector(const std::string&);
 
 // COMMANDS
 
