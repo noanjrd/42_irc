@@ -98,8 +98,6 @@ Press `Ctrl+C` — the server will shut down gracefully.
 | `+l <limit>` / `-l` | Set or remove a user limit |
 | `+o <nick>` / `-o <nick>` | Grant or revoke operator status |
 
----
-
 ## Bot
 
 A simple IRC bot is included and connects to the server automatically.
