@@ -58,7 +58,7 @@ nc localhost 6667
 
 ### Stop the server
 
-Press `Ctrl+C` — the server will shut down gracefully.
+Press `Ctrl+C` : the server will shut down gracefully.
 
 ---
 
